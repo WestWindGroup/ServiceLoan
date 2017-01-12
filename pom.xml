@@ -12,10 +12,18 @@
         <spring.version>4.3.5.RELEASE</spring.version>
         <spring-data-jpa.version>1.10.6.RELEASE</spring-data-jpa.version>
         <spring-security.version>4.2.0.RELEASE</spring-security.version>
+        <jstl.version>1.2</jstl.version>
+        <junit.version>4.12</junit.version>
+        <javax-servlet-api.version>2.5</javax-servlet-api.version>
+        <javax-el-api.version>2.2</javax-el-api.version>
+        <javax-el-impl.version>2.2</javax-el-impl.version>
         <postgresql>9.4.1212</postgresql>
         <javax.persistence.version>1.0.2</javax.persistence.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <log4j.version>1.2.17</log4j.version>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -46,7 +54,6 @@
             <version>${spring.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -57,6 +64,34 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-jpa.version}</version>
+        </dependency>
+
+        <!-- JSTL -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${javax-servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>${javax-el-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>${javax-el-impl.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Spring Security -->
@@ -123,6 +158,14 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.22</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

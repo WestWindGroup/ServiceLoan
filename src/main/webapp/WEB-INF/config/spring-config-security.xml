@@ -10,7 +10,6 @@
     <http auto-config="true">
         <intercept-url pattern="/home" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/admin/listRoles" access="hasRole('ROLE_ADMIN')"/>
 
         <form-login login-page="/login" default-target-url="/home" authentication-failure-url="/login?error"
                     username-parameter="username" password-parameter="password"/>
@@ -24,7 +23,7 @@
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="userDetailsServiceImpl" class="com.teamgetter.service.impl.UserDetailsServiceImpl">
+    <beans:bean id="userDetailsServiceImpl" class="com.serviceloan.service.impl.UserDetailsServiceImpl">
 
     </beans:bean>
 
