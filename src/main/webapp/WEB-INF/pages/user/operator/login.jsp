@@ -21,20 +21,32 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
+    <style>
+        .main {
+            position: absolute;
+            top: 20%;
+            left: 40%;
+            width: 20%;
+            height: 20%;
+        }
+
+        .lang {
+            position: absolute;
+            top: 5%;
+            left: 70%;
+        }
+    </style>
+
 </head>
 
 <body>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<div>
 
-    <div class="container">
-        <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
-        <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
+<div class="lang">
+    <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
+    <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
+</div>
+<div>
+    <div class="main">
 
         <form method="POST" action="${contextPath}/login" class="form-signin">
             <h2 class="form-signin-heading">

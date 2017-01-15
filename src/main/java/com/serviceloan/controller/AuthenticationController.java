@@ -72,6 +72,6 @@ public class AuthenticationController {
             model.addAttribute("message", "Logged out successfully.");
         }
 
-        return "user/login";
+        return "user/operator/login";
     }
 }

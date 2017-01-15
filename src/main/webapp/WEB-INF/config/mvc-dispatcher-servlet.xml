@@ -42,7 +42,7 @@
 
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-        <property name="defaultLocale" value="ru"/>
+        <property name="defaultLocale" value="ua"/>
         <property name="cookieMaxAge" value="100000"/>
 
     </bean>
