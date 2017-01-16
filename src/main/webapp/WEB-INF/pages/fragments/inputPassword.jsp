@@ -5,10 +5,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="form-group ${errorConfirmPassword != null ? 'has-error' : ''}">
-    <spring:message code="confirmPassword" var="confirmChange"/>
     <spring:message code="login.placeholder.password" var="oldPassword"/>
     <h4>
-        ${confirmChange}:
         <input name="oldPassword" type="password" value="" class="form-control" autofocus="true"
                placeholder='${oldPassword}'/>
     </h4>

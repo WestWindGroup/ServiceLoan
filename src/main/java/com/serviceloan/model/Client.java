@@ -33,6 +33,11 @@ public class Client extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")})
     private Set<Credit> creditSet;
 
+    @PrePersist
+    public void getDate() {
+        registrationDate = new Date();
+    }
+
     public String getFirstName() {
         return firstName;
     }

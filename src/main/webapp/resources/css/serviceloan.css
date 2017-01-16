@@ -55,6 +55,38 @@
     left: 25%;
     width: 40%;
 }
+.block-password{
+    position: absolute;
+    top: 60%;
+    left: 30%;
+    width: 50%;
+}
+.edit{
+    position: absolute;
+    top: 25%;
+    left: 30%;
+    width: 30%;
+}
+.addClient{
+    position: absolute;
+    top: 60%;
+    left: 35%;
+    width: 30%;
+}
+.addClientLeft{
+    width: 40%;
+    float: left;
+}
+.addClientRight{
+    width: 50%;
+    float: right;
+}
+.messagePassword{
+    position: absolute;
+    top: 55%;
+    left: 30%;
+    width: 30%;
+}
 .tg {
     position: absolute;
     top: 20%;

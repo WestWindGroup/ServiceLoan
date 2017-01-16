@@ -30,7 +30,7 @@
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
 
-<div class="container">
+<div class="edit">
 
     <form:form method="POST" modelAttribute="client" class="form-signin">
         <h2 class="form-signin-heading">
@@ -39,7 +39,8 @@
         <spring:bind path="firstName">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <spring:message code="listClient.table.client.name" var="firstName"/>
-                <form:input type="text" path="firstName" class="form-control" placeholder='${firstName}' autofocus="true"/>
+                <form:input type="text" path="firstName" class="form-control" placeholder='${firstName}'
+                            autofocus="true"/>
 
                 <form:errors path="firstName"/>
             </div>
@@ -47,54 +48,52 @@
         <spring:bind path="lastName">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <spring:message code="listClient.table.client.lastname" var="lastName"/>
-                <form:input type="text" path="lastName" class="form-control" placeholder='${lastName}' autofocus="true"/>
+                <form:input type="text" path="lastName" class="form-control" placeholder='${lastName}'
+                            autofocus="true"/>
 
                 <form:errors path="lastName"/>
             </div>
         </spring:bind>
-        <td width="180">
-            <spring:bind path="registrationDate">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <spring:message code="listClient.table.client.registrationDate" var="registrationDate"/>
-                    <form:input type="text" path="registrationDate" class="form-control" placeholder='${registrationDate}'
-                                autofocus="true"/>
 
-                    <form:errors path="registrationDate"/>
-                </div>
-            </spring:bind>
-        </td>
-        <td width="180">
-            <spring:bind path="birthDate">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <spring:message code="listClient.table.client.birthDate" var="birthDate"/>
-                    <form:input type="text" path="birthDate" class="form-control" placeholder='${birthDate}'
-                                autofocus="true"/>
+        <spring:bind path="birthDate">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <spring:message code="listClient.table.client.birthDate" var="birthDate"/>
+                <form:input type="date" max="2012-06-04" min="2012-05-29" path="birthDate" class="form-control"
+                            placeholder='${birthDate}' autofocus="true"/>
 
-                    <form:errors path="birthDate"/>
-                </div>
-            </spring:bind>
-        </td>
+                <form:errors path="birthDate"/>
+            </div>
+        </spring:bind>
 
-        <table>
-            <tr>
-                <td>
-                    <jsp:include page="/WEB-INF/pages/fragments/inputPassword.jsp"/>
-                </td>
-                <td>
-                    <button type="submit">
-                        <spring:message code="addClient.buttons.add"/>
-                    </button>
-                </td>
-                <td>
-                    <button onclick="location.href = '${contextPath}/user/listClients'">
-                        <spring:message code="buttons.back"/>
-                    </button>
-                </td>
-            </tr>
-        </table>
     </form:form>
-
 </div>
+<div class="messagePassword">
+    <h4>
+        <spring:message code="confirmPassword"/>
+    </h4>
+</div>
+<div class="block-password">
+    <div class="addClientLeft">
+        <jsp:include page="/WEB-INF/pages/fragments/inputPassword.jsp"/>
+    </div>
+    <div class="addClientRight">
+        <button type="submit">
+            <h4>
+                <spring:message code="addClient.buttons.add"/>
+            </h4>
+        </button>
+    </div>
+</div>
+<div class="block-button">
+    <div class="block2-listClient">
+        <button onclick="location.href = '${contextPath}/user/listClients'">
+            <h4>
+                <spring:message code="buttons.back"/>
+            </h4>
+        </button>
+    </div>
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
