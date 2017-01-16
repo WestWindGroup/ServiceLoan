@@ -8,6 +8,7 @@ import org.springframework.validation.Validator;
 @Component
 @Configuration
 public class ClientValidator implements Validator{
+
     @Override
     public boolean supports(Class<?> aClass) {
         return false;

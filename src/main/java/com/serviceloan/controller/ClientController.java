@@ -3,6 +3,7 @@ package com.serviceloan.controller;
 import com.serviceloan.model.Client;
 import com.serviceloan.model.User;
 import com.serviceloan.service.ClientService;
+import com.serviceloan.service.CreditService;
 import com.serviceloan.service.UserService;
 import com.serviceloan.validator.ClientValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class ClientController {
     private ClientService clientService;
 
     @Autowired
+    private CreditService creditService;
+
+    @Autowired
     private ClientValidator clientValidator;
 
     @Autowired
@@ -55,7 +59,7 @@ public class ClientController {
 //        client.setName(" ");
         model.addAttribute("client", client);
 
-        return "user/client/addClients";
+        return "user/client/addClient";
     }
 
     @RequestMapping(value = "/user/addClient", method = RequestMethod.POST)
@@ -82,6 +86,18 @@ public class ClientController {
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "/user/pageClient/{id}", method = RequestMethod.GET)
+    public ModelAndView pageClientGet(@PathVariable long id) {
+
+        Client client = clientService.getById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("client", client);
+        modelAndView.addObject("listCredits", this.creditService.getAllCreditsClient(client.getId()));
+
+        return modelAndView;
+    }
+
 
     @RequestMapping(value = "/user/editClient/{id}", method = RequestMethod.GET)
     public ModelAndView editClientGet(@PathVariable long id) {

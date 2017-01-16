@@ -58,7 +58,7 @@ public class AuthenticationController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "user/home";
+        return "user/operator/home";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

@@ -3,6 +3,7 @@ package com.serviceloan.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Simple JavaBean domain object that represents a Credit.
@@ -43,6 +44,9 @@ public class Credit extends BaseEntity{
     @JoinTable(name = "credit_status", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "status_id", referencedColumnName = "id")})
     private CreditStatus creditStatus;
+
+    @ManyToOne
+    private Client client;
 
 
     public BigDecimal getAmount() {
@@ -99,5 +103,13 @@ public class Credit extends BaseEntity{
 
     public void setCreditStatus(CreditStatus creditStatus) {
         this.creditStatus = creditStatus;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

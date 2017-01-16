@@ -23,4 +23,5 @@ public interface ClientService {
     Collection<Client> getAll();
 
     void remote(Client client);
+
 }

@@ -1,0 +1,97 @@
+.head {
+    position: absolute;
+    top: 15%;
+    left: 28%;
+    width: 50%;
+}
+
+.page {
+    position: absolute;
+    text-align: left;
+    width: auto;
+    top: 30%;
+    left: 30%;
+}
+
+.lang {
+    position: absolute;
+    top: 5%;
+    left: 70%;
+}
+.block1-home {
+    width: 35%;
+    float: left;
+}
+.block2-home {
+    width: 40%;
+    float: left;
+    color: #21a051
+}
+.block3-home {
+    width: 20%;
+    float: right;
+}
+.block1-listClient{
+    width: 50%;
+    float: left;
+    text-align: right;
+    color: #21a051;
+}
+.block2-listClient{
+    width: 50%;
+    float: left;
+    text-align: left;
+    color: #21a051;
+}
+.head-listClient{
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    color: #21a051;
+}
+.block-button{
+    position: absolute;
+    top: 80%;
+    left: 25%;
+    width: 40%;
+}
+.tg {
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    width: 60%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+
+.tg td {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
+
+.tg th {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+.tg .tg-4eph {
+    background-color: #f9f9f9
+}

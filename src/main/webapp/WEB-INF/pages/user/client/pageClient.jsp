@@ -13,69 +13,101 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Add skill</title>
+    <title>Page client</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet">
 
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-    <script language="javascript">
-        function move()
-        {
-            document.getElementById("cancelButton").disabled = true;
-            location.href = "${contextPath}/admin/listSkills";
-        }
-
-    </script>
-
-
 
 </head>
 
 <body>
+<div class="lang">
+    <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
+    <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
+</div>
+<table class="tg">
+    <tr>
+        <th width="80">ID</th>
+        <th width="180"><spring:message code="listClient.table.client.name"/></th>
+        <th width="180"><spring:message code="listClient.table.client.lastname"/></th>
+        <th width="180"><spring:message code="listClient.table.client.registrationDate"/></th>
+        <th width="180"><spring:message code="listClient.table.client.birthDate"/></th>
+    </tr>
+</table>
 <div class="container">
 
-    <a href="<%=request.getContextPath()%>?languageVar=en"><spring:message code="general.UA"/></a>
-    <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 
     <form:form method="POST" modelAttribute="client" class="form-signin">
         <h2 class="form-signin-heading">
             <spring:message code="pageClient.head"/>
         </h2>
-        <spring:bind path="name">
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <spring:message code="addSkill.placeholder.nameskill" var="NameSkill"/>
-                <form:input type="text" path="name" class="form-control" placeholder='${NameSkill}' autofocus="true"/>
 
-                <form:errors path="name"/>
-            </div>
-        </spring:bind>
+        <tr>
+            <td width="80">${client.id}</td>
+            <td width="180">
+                <spring:bind path="firstName">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <spring:message code="listClient.table.client.name" var="firstName"/>
+                        <form:input type="text" path="firstName" class="form-control" placeholder='${firstName}'
+                                   disabled="true" autofocus="true"/>
 
-        <table>
-            <tr>
-                <td>
-                    <jsp:include page="/WEB-INF/pages/fragments/inputPassword.jsp"/>
-                </td>
-                <td>
-                    <button type="submit">
-                        <spring:message code="editSkill.buttons.accept"/>
-                    </button>
-                </td>
-                <td>
-                    <button id="cancelButton" onclick="move()">
-                        <spring:message code="editSkill.buttons.cancel"/>
-                    </button>
-                </td>
-            </tr>
-        </table>
+                        <form:errors path="firstName"/>
+                    </div>
+                </spring:bind>
+            </td>
+            <td width="180">
+                <spring:bind path="lastName">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <spring:message code="listClient.table.client.lastname" var="lastName"/>
+                        <form:input type="text" path="lastName" class="form-control" placeholder='${lastName}'
+                                    disabled="true" autofocus="true"/>
+
+                        <form:errors path="lastName"/>
+                    </div>
+                </spring:bind>
+            </td>
+            <td width="180">
+                <spring:bind path="registrationDate">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <spring:message code="listClient.table.client.registrationDate" var="registrationDate"/>
+                        <form:input type="text" path="registrationDate" class="form-control" placeholder='${registrationDate}'
+                                    disabled="true" autofocus="true"/>
+
+                        <form:errors path="registrationDate"/>
+                    </div>
+                </spring:bind>
+            </td>
+            <td width="180">
+                <spring:bind path="birthDate">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <spring:message code="listClient.table.client.birthDate" var="birthDate"/>
+                        <form:input type="text" path="birthDate" class="form-control" placeholder='${birthDate}'
+                                    disabled="true" autofocus="true"/>
+
+                        <form:errors path="birthDate"/>
+                    </div>
+                </spring:bind>
+            </td>
+            <td width="80">
+                <h5 class="text-center">
+                    <a href="/user/editClient/${client.id}">
+                        <spring:message code="pageClient.button.edit"/>
+                    </a>
+                </h5>
+            </td>
+        </tr>
+
     </form:form>
 
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/serviceloan.js"></script>
 </body>
 </html>

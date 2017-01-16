@@ -5,6 +5,7 @@ import com.serviceloan.model.User;
 import com.serviceloan.service.SecurityService;
 import com.serviceloan.service.UserService;
 //import com.serviceloan.validator.UserEditValidator;
+import com.serviceloan.validator.UserEditValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -36,8 +37,8 @@ public class UserController {
     @Autowired
     private SecurityService securityService;
 
-//    @Autowired
-//    private UserEditValidator userValidator;
+    @Autowired
+    private UserEditValidator userValidator;
 
 
     @Autowired
@@ -46,7 +47,7 @@ public class UserController {
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String welcome() {
-        return "user/home";
+        return "user/operator/home";
     }
 
 
@@ -76,34 +77,34 @@ public class UserController {
 
         if(!user.equals(userFromDataBase)){
 
-//            userValidator.validate(user, bindingResult);
+            userValidator.validate(user, bindingResult);
 
             String oldPassword = request.getParameter("oldPassword");
 
             userFromDataBase.setConfirmPassword(oldPassword);
 
-//            if((oldPassword == null)||(!userValidator.getUserService().
-//                    coincidencePassword(userFromDataBase.getConfirmPassword(),userFromDataBase.getPassword()))){
-//                model.addAttribute("errorConfirmPassword",
-//                        messageSource.getMessage("key.password.incorrect", null, localeResolver.resolveLocale(request)));
-//                bindingResult.addError(null);
-////                return "user/editProfile";
-//            }
+            if((oldPassword == null)||(!userValidator.getUserService().
+                    coincidencePassword(userFromDataBase.getConfirmPassword(),userFromDataBase.getPassword()))){
+                model.addAttribute("errorConfirmPassword",
+                        messageSource.getMessage("key.password.incorrect", null, localeResolver.resolveLocale(request)));
+                bindingResult.addError(null);
+//                return "user/editProfile";
+            }
 
             if (bindingResult.hasErrors()) {
                 return "user/editProfile";
             }
 
-//            if(user.getPassword().equals(userFromDataBase.getPassword())){
-//                userService.update(user);
-//                securityService.autoLogin(user.getUsername(), oldPassword);
-//            }else{
-//                userService.save(user);
-//                securityService.autoLogin(user.getUsername(), user.getConfirmPassword());
-//            }
+            if(user.getPassword().equals(userFromDataBase.getPassword())){
+                userService.update(user);
+                securityService.autoLogin(user.getUsername(), oldPassword);
+            }else{
+                userService.save(user);
+                securityService.autoLogin(user.getUsername(), user.getConfirmPassword());
+            }
         }
 
-        return "user/home";
+        return "user/operator/home";
     }
 
 }
