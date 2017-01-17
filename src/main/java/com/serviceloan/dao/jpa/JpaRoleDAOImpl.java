@@ -62,8 +62,14 @@ public class JpaRoleDAOImpl implements RoleDAO {
 
     @Override
     public void remove(Role role) {
-        this.entityManager.remove(role);
+        remove(role.getId());
         logger.info("Role successfully removed. Role details: " + role);
+    }
+
+    @Override
+    public void remove(Long id){
+        this.entityManager.remove(this.entityManager.getReference(Role.class,id));
+        logger.info("Role successfully removed. Role details: " + id);
     }
 
 }

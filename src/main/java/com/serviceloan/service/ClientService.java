@@ -18,10 +18,12 @@ public interface ClientService {
 
     Client getById(long id);
 
-    Client findByClientName(String lastName);
+    Client findByName(String lastName);
 
     Collection<Client> getAll();
 
-    void remote(Client client);
+    void remove(Client client);
+
+    void remove(long id);
 
 }

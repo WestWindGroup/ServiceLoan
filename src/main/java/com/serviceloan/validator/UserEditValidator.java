@@ -4,6 +4,15 @@ import com.serviceloan.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
+
+/**
+ * Validator for {@link User} class, when editing,
+ * extend {@link UserValidator} class.
+ *
+ * @author Eugene Artemenko
+ * @version 1.0
+ */
+
 @Component
 public class UserEditValidator  extends UserValidator {
 

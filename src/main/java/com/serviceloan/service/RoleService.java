@@ -18,4 +18,6 @@ public interface RoleService {
     void save(Role role);
 
     void remove(Role role);
+
+    void remove(long id);
 }

@@ -1,21 +1,36 @@
 package com.serviceloan.validator;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import com.serviceloan.model.Client;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
-@Component
-@Configuration
-public class ClientValidator implements Validator{
+/**
+ * Validator for {@link Client} class,
+ * add functionality in {@link AbstractValidator} class.
+ *
+ * @author Eugene Artemenko
+ * @version 1.0
+ */
+public abstract class ClientValidator extends AbstractValidator{
 
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return false;
+
+    protected void validateFirstName(Client client, Errors errors){
+
+        validateField("firstName",errors);
+
+        if(!checkLastAndFirstNameWithRegExp(client.getFirstName())){
+            client.setFirstName("");
+            errors.rejectValue("firstName", "key.client.firstname", null, null);
+        }
     }
 
-    @Override
-    public void validate(Object o, Errors errors) {
+    protected void validateLastName(Client client, Errors errors){
 
+        validateField("lastName",errors);
+
+        if(!checkLastAndFirstNameWithRegExp(client.getLastName())){
+            client.setLastName("");
+            errors.rejectValue("lastName", "key.client.lastname", null, null);
+        }
     }
+
 }

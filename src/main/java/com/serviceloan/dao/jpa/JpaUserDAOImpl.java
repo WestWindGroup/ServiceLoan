@@ -63,8 +63,14 @@ public class JpaUserDAOImpl implements UserDAO {
 
     @Override
     public void remove(User user) {
-        this.entityManager.remove(user);
+        remove(user.getId());
         logger.info("User successfully removed. User details: " + user);
+    }
+
+    @Override
+    public void remove(Long id){
+        this.entityManager.remove(this.entityManager.getReference(User.class,id));
+        logger.info("User successfully removed. User details: " + id);
     }
 
     @Override

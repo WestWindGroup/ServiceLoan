@@ -19,7 +19,10 @@ public interface CreditService {
 
     Collection<Credit> getAll();
 
-    void remote(Credit credit);
+    void remove(Credit credit);
+
+    void remove(long id);
 
     Collection<Credit> getAllCreditsClient(long id);
+
 }

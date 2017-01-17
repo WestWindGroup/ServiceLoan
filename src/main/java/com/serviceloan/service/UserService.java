@@ -25,4 +25,8 @@ public interface UserService {
     Collection<User> getAll();
 
     boolean coincidencePassword(CharSequence rawPassword, String encodedPassword);
+
+    void remove(User user);
+
+    void remove(long id);
 }

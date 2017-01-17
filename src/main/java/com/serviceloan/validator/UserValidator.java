@@ -3,34 +3,21 @@ package com.serviceloan.validator;
 import com.serviceloan.model.User;
 import com.serviceloan.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+/**
+ * Validator for {@link User} class,
+ * add functionality in {@link AbstractValidator} class.
+ *
+ * @author Eugene Artemenko
+ * @version 1.0
+ */
 
-@Component
-@Configuration
-@PropertySource("classpath:validation/validationSettings.properties")
-public abstract class UserValidator  implements Validator {
+public abstract class UserValidator  extends AbstractValidator {
 
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private Environment env;
-
-
-    protected void validateField(String field, Errors errors) {
-
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, field, "key.required");
-    }
 
     protected void validateUsernameCoincidence(User user, Errors errors){
 
@@ -38,7 +25,6 @@ public abstract class UserValidator  implements Validator {
             errors.rejectValue("username", "key.duplicate.userForm.username");
         }
     }
-
 
     protected void validateUsername(User user, Errors errors){
 
@@ -53,7 +39,6 @@ public abstract class UserValidator  implements Validator {
                             String.valueOf(env.getProperty("key.max.count.characters.username"))}, null);
         }
     }
-
 
     protected void validatePassword(User user, Errors errors) {
 
@@ -75,21 +60,6 @@ public abstract class UserValidator  implements Validator {
         }
 
     }
-
-    private boolean checkUserNameWithRegExp(String str,int... key){
-        Pattern p = Pattern.compile("^[a-zA-Z][a-zA-Z0-9-_.]{" + key[0] + "," + key[1] + "}$");
-        Matcher m = p.matcher(str);
-        return m.matches();
-    }
-
-    private boolean checkPasswordWithRegExp(String str,int... key){
-        Pattern p = Pattern.compile(
-                "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\\w\\s]).{"
-                        + key[0] + "," + key[1] + "}$");
-        Matcher m = p.matcher(str);
-        return m.matches();
-    }
-
 
     public UserService getUserService() {
         return userService;

@@ -8,5 +8,9 @@ import com.serviceloan.model.Client;
  * @author Eugene Artemenko
  */
 
-public interface ClientDAO extends GenericDAO {
+public interface ClientDAO extends GenericDAO<Client,Long> {
+
+    void remove(Long id);
+
+    Client findByName(String name);
 }

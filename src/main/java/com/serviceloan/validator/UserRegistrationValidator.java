@@ -6,8 +6,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * Validator for {@link User} class,
- * implements {@link Validator} interface.
+ * Validator for {@link User} class, when you register,
+ * extend {@link UserValidator} class.
  *
  * @author Eugene Artemenko
  * @version 1.0

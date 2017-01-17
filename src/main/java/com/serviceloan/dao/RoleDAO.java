@@ -8,4 +8,6 @@ import com.serviceloan.model.Role;
  * @author Eugene Artemenko
  */
 public interface RoleDAO extends GenericDAO<Role, Long> {
+
+    void remove(Long id);
 }

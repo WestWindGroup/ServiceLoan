@@ -9,5 +9,7 @@ import com.serviceloan.model.User;
  */
 public interface UserDAO extends GenericDAO<User, Long> {
 
+    void remove(Long id);
+
     User findByUserName(String username);
 }

@@ -20,5 +20,7 @@ public interface CreditTypeService {
 
     Collection<CreditType> getAll();
 
-    void remote(CreditType creditType);
+    void remove(CreditType creditType);
+
+    void remove(long id);
 }

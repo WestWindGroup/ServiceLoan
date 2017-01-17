@@ -2,6 +2,7 @@ package com.serviceloan.service;
 
 
 import com.serviceloan.model.CreditStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
@@ -11,6 +12,7 @@ import java.util.Collection;
  * @author Eugen Artemenko
  * @version 1.0
  */
+
 public interface CreditStatusService {
 
     void save(CreditStatus creditStatus);
@@ -19,5 +21,7 @@ public interface CreditStatusService {
 
     Collection<CreditStatus> getAll();
 
-    void remote(CreditStatus creditStatus);
+    void remove(CreditStatus creditStatus);
+
+    void remove(long id);
 }

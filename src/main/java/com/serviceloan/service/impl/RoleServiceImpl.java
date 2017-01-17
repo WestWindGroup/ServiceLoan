@@ -19,29 +19,35 @@ import java.util.Collection;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private RoleDAO roleDAO;
+    private RoleDAO roleDao;
 
     @Override
     @Transactional
     public Role getById(Long id) {
-        return roleDAO.getById(id);
+        return roleDao.getById(id);
     }
 
     @Override
     @Transactional
     public Collection<Role> getAll() {
-        return roleDAO.getAll();
+        return roleDao.getAll();
     }
 
     @Override
     @Transactional
     public void save(Role role) {
-        roleDAO.save(role);
+        roleDao.save(role);
     }
 
     @Override
     @Transactional
     public void remove(Role role) {
-        roleDAO.remove(role);
+        roleDao.remove(role);
+    }
+
+    @Override
+    @Transactional
+    public void remove(long id) {
+        roleDao.remove(id);
     }
 }
