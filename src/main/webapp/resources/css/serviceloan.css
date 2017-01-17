@@ -19,11 +19,11 @@
     left: 70%;
 }
 .block1-home {
-    width: 35%;
+    width: 45%;
     float: left;
 }
 .block2-home {
-    width: 40%;
+    width: 35%;
     float: left;
     color: #21a051
 }
@@ -49,6 +49,7 @@
     left: 20%;
     color: #21a051;
 }
+
 .block-button{
     position: absolute;
     top: 80%;
@@ -87,6 +88,12 @@
     left: 30%;
     width: 30%;
 }
+.heading{
+    position: absolute;
+    top: 10%;
+    left: 15%;
+}
+
 .tg {
     position: absolute;
     top: 20%;

@@ -4,7 +4,6 @@ package com.serviceloan.controller;
 import com.serviceloan.model.User;
 import com.serviceloan.service.SecurityService;
 import com.serviceloan.service.UserService;
-//import com.serviceloan.validator.UserEditValidator;
 import com.serviceloan.validator.UserEditValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Controller for {@link User}'s pages
  *
- * @author Eugene Suliemanov
  * @author Eugene Artemenko
  */
 

@@ -19,6 +19,12 @@ public abstract class UserValidator  extends AbstractValidator {
     @Autowired
     private UserService userService;
 
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return User.class.equals(aClass);
+    }
+
+
     protected void validateUsernameCoincidence(User user, Errors errors){
 
         if (userService.findByUserName(user.getUsername()) != null) {
@@ -39,6 +45,27 @@ public abstract class UserValidator  extends AbstractValidator {
                             String.valueOf(env.getProperty("key.max.count.characters.username"))}, null);
         }
     }
+
+    protected void validateFirstName(User user, Errors errors){
+
+        validateField("firstName",errors);
+
+        if(!checkLastAndFirstNameWithRegExp(user.getFirstName())){
+            user.setFirstName("");
+            errors.rejectValue("firstName", "key.client.firstname", null, null);
+        }
+    }
+
+    protected void validateLastName(User user, Errors errors){
+
+        validateField("lastName",errors);
+
+        if(!checkLastAndFirstNameWithRegExp(user.getLastName())){
+            user.setLastName("");
+            errors.rejectValue("lastName", "key.client.lastname", null, null);
+        }
+    }
+
 
     protected void validatePassword(User user, Errors errors) {
 

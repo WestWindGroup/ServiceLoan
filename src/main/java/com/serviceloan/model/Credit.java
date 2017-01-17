@@ -48,6 +48,10 @@ public class Credit extends BaseEntity{
     @ManyToOne
     private Client client;
 
+    @PrePersist
+    public void getDate() {
+        openDate = new Date();
+    }
 
     public BigDecimal getAmount() {
         return amount;

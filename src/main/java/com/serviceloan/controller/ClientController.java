@@ -5,6 +5,8 @@ import com.serviceloan.model.User;
 import com.serviceloan.service.ClientService;
 import com.serviceloan.service.CreditService;
 import com.serviceloan.service.UserService;
+import com.serviceloan.validator.ClientEditValidator;
+import com.serviceloan.validator.ClientRegistrationValidator;
 import com.serviceloan.validator.ClientValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -39,7 +41,10 @@ public class ClientController {
     private CreditService creditService;
 
     @Autowired
-    private ClientValidator clientValidator;
+    private ClientRegistrationValidator registrationValidator;
+
+    @Autowired
+    private ClientEditValidator editValidator;
 
     @Autowired
     private MessageSource messageSource;
@@ -71,7 +76,7 @@ public class ClientController {
             bindingResult.addError(null);
         }
 
-        clientValidator.validate(client,bindingResult);
+        registrationValidator.validate(client,bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("user/client/addClient");
@@ -121,7 +126,8 @@ public class ClientController {
             if(confirmUser(request,localeResolver,modelAndView)){
                 bindingResult.addError(null);
             }
-            clientValidator.validate(client,bindingResult);
+
+            editValidator.validate(client,bindingResult);
 
             if (bindingResult.hasErrors()) {
                 modelAndView.setViewName("user/client/editClient");

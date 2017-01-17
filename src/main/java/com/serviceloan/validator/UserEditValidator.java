@@ -16,11 +16,6 @@ import org.springframework.validation.Errors;
 @Component
 public class UserEditValidator  extends UserValidator {
 
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
-    }
-
 
     @Override
     public void validate(Object ob, Errors errors) {
@@ -34,11 +29,13 @@ public class UserEditValidator  extends UserValidator {
         }
 
         if(!user.getFirstName().equals(userOld.getFirstName())){
-            validateField("firstName",errors);
+//            validateField("firstName",errors);
+            validateFirstName(user,errors);
         }
 
         if(!user.getLastName().equals(userOld.getLastName())){
-            validateField("lastName",errors);
+//            validateField("lastName",errors);
+            validateLastName(user,errors);
         }
 
         if(!user.getPassword().equals(userOld.getPassword())){

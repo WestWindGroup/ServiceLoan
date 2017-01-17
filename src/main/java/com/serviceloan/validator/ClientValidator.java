@@ -1,6 +1,8 @@
 package com.serviceloan.validator;
 
 import com.serviceloan.model.Client;
+import com.serviceloan.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 
 /**
@@ -11,6 +13,14 @@ import org.springframework.validation.Errors;
  * @version 1.0
  */
 public abstract class ClientValidator extends AbstractValidator{
+
+    @Autowired
+    protected ClientService clientService;
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return Client.class.equals(aClass);
+    }
 
 
     protected void validateFirstName(Client client, Errors errors){
