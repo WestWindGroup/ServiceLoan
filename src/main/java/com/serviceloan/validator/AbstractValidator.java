@@ -28,8 +28,7 @@ public abstract class AbstractValidator implements Validator {
     }
 
     protected boolean checkLastAndFirstNameWithRegExp(String str){
-//        Pattern p = Pattern.compile("^[A-Za-zА-Яа-яЁёІіЇїЄє]$");
-        Pattern p = Pattern.compile("^[^a-z,A-Z,0-9,а-яіїєґ,А-ЯІЇЄҐ,-,_]$");
+        Pattern p = Pattern.compile("^([а-яА-ЯёЁЇїІіЄєҐґ]+)|([a-zA-Z]+)",Pattern.UNICODE_CASE);
         Matcher m = p.matcher(str);
         return m.matches();
     }
@@ -53,7 +52,5 @@ public abstract class AbstractValidator implements Validator {
         Matcher m = p.matcher(str);
         return m.matches();
     }
-//    ^(?:[a-z]++(?:[ ][a-z]++)?|[а-яёії]++(?:[ ][а-яёії]++)?)$
-//
 
 }

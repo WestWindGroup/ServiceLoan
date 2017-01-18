@@ -49,6 +49,8 @@ public class JpaRoleDAOImpl implements RoleDAO {
         return result;
     }
 
+
+
     @Override
     public void save(Role role) {
         if (role.getId() == null) {

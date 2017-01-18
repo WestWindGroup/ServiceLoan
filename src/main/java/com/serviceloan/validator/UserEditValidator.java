@@ -29,12 +29,10 @@ public class UserEditValidator  extends UserValidator {
         }
 
         if(!user.getFirstName().equals(userOld.getFirstName())){
-//            validateField("firstName",errors);
             validateFirstName(user,errors);
         }
 
         if(!user.getLastName().equals(userOld.getLastName())){
-//            validateField("lastName",errors);
             validateLastName(user,errors);
         }
 
