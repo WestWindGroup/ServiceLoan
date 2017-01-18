@@ -30,17 +30,17 @@ public class Credit extends BaseEntity{
     @Column(name = "shut_date")
     private Date shutDate;
 
-    @OneToOne
+    @ManyToOne
     @JoinTable(name = "credit_interest", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "percent_id", referencedColumnName = "id")})
     private RateInterest percent;
 
-    @OneToOne
+    @ManyToOne
     @JoinTable(name = "credit_type", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "type_id", referencedColumnName = "id")})
     private CreditType creditType;
 
-    @OneToOne
+    @ManyToOne
     @JoinTable(name = "credit_status", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "status_id", referencedColumnName = "id")})
     private CreditStatus creditStatus;

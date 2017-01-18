@@ -29,7 +29,7 @@ public class JpaRateDAOImpl implements RateDAO{
     @Override
     public RateInterest getById(Long id) {
         Query query = this.entityManager.createQuery("SELECT rateInterest FROM  RateInterest rateInterest " +
-                "WHERE rateInterest.id =:id");
+                "LEFT JOIN FETCH  rateInterest.credits WHERE rateInterest.id =:id");
         query.setParameter("id", id);
 
         RateInterest rateInterest = (RateInterest) query.getSingleResult();

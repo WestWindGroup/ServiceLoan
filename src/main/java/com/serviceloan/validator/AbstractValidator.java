@@ -48,9 +48,16 @@ public abstract class AbstractValidator implements Validator {
     }
 
     protected boolean checkDoubleWithRegExp(String str){
-        Pattern p = Pattern.compile("^([0-9]+\\.[0-9]+$)|(^[0-9])$");
+        Pattern p = Pattern.compile("^([0-9]+\\.[0-9]+)|([0-9]+)");
         Matcher m = p.matcher(str);
         return m.matches();
     }
 
+    public Environment getEnv() {
+        return env;
+    }
+
+    public void setEnv(Environment env) {
+        this.env = env;
+    }
 }

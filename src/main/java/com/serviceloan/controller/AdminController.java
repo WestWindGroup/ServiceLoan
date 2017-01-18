@@ -3,6 +3,7 @@ package com.serviceloan.controller;
 
 import com.serviceloan.model.*;
 import com.serviceloan.service.*;
+import com.serviceloan.validator.RateInterestValidator;
 import com.serviceloan.validator.RoleValidator;
 import com.serviceloan.validator.UserEditValidator;
 import com.serviceloan.validator.UserRegistrationValidator;
@@ -55,6 +56,9 @@ public class AdminController {
     private RoleValidator roleValidator;
 
     @Autowired
+    private RateInterestValidator rateValidator;
+
+    @Autowired
     private MessageSource messageSource;
 
 
@@ -74,7 +78,6 @@ public class AdminController {
     @RequestMapping(value = "/admin/addRole", method = RequestMethod.GET)
     public String addRoleGet(Model model) {
         Role role = new Role();
-//        role.setName(" ");
         model.addAttribute("role", role);
 
         return "admin/role/addRole";
@@ -115,7 +118,7 @@ public class AdminController {
 
 
     @RequestMapping(value = "/admin/deleteRole/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteRolePost(@ModelAttribute(name = "role") Role skillForm, BindingResult bindingResult,
+    public ModelAndView deleteRolePost(@ModelAttribute(name = "role") Role roleForm, BindingResult bindingResult,
                                        @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
 
         ModelAndView modelAndView = new ModelAndView();
@@ -317,6 +320,143 @@ public class AdminController {
         return "admin/rateInterest/listRates";
     }
 
+    @RequestMapping(value = "/admin/addRate", method = RequestMethod.GET)
+    public String addRateGet() {
+
+        return "admin/rateInterest/addRate";
+    }
+
+    @RequestMapping(value = "/admin/addRate", method = RequestMethod.POST)
+    public ModelAndView addRatePost(@ModelAttribute(name = "rate") RateInterest rate, HttpServletRequest request,
+                                    CookieLocaleResolver localeResolver) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        String newRate = request.getParameter("rate");
+        if(!chooseCorrectRate(newRate,rate,modelAndView, request,localeResolver)){
+            return modelAndView;
+        }
+
+        modelAndView.setViewName("admin/rateInterest/listRates");
+        modelAndView.addObject("listRates", this.interestService.getAll());
+        modelAndView.addObject("rate", new RateInterest());
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/editRate/{id}", method = RequestMethod.GET)
+    public ModelAndView editRateGet(@PathVariable long id) {
+        RateInterest rate = interestService.getById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/rateInterest/editRate");
+        modelAndView.addObject("rate", rate);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/editRate/{id}", method = RequestMethod.POST)
+    public ModelAndView editRatePost(@ModelAttribute("rate") RateInterest rate, @PathVariable long id,
+                                     HttpServletRequest request,CookieLocaleResolver localeResolver) {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        RateInterest rateFromDataBase = interestService.getById(id);
+
+        String newRate = request.getParameter("rate");
+
+        if(!newRate.equals(String.valueOf(rateFromDataBase.getRate()))){
+            if(!chooseCorrectRate(newRate,rate,modelAndView, request,localeResolver)){
+                return modelAndView;
+            }
+        }
+        interestService.save(rate);
+        modelAndView.setViewName("admin/rateInterest/listRates");
+        modelAndView.addObject("listRates", this.interestService.getAll());
+        modelAndView.addObject("rate", new RateInterest());
+
+        return modelAndView;
+
+    }
+
+    @RequestMapping(value = "/admin/deleteRate/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteRateGet(@PathVariable long id) {
+
+        RateInterest rate = interestService.getById(id);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/rate/deleteRate");
+        modelAndView.addObject("rate", rate);
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/deleteRate/{id}", method = RequestMethod.POST)
+    public ModelAndView deleteRatePost(@ModelAttribute(name = "rate") RateInterest rate, BindingResult bindingResult,
+                                       @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        RateInterest rateFromBase = interestService.getById(id);
+
+        if (rateFromBase.getCredits().size() != 0) {
+            modelAndView.addObject("errorDelete",
+                    messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
+            bindingResult.addError(null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("admin/rate/deleteRate");
+            modelAndView.addObject("rate", rate);
+            return modelAndView;
+        }
+
+        interestService.remove(rate);
+
+        modelAndView.setViewName("admin/rate/listRates");
+        modelAndView.addObject("listRates", this.interestService.getAll());
+        modelAndView.addObject("rate", new RateInterest());
+
+        return modelAndView;
+    }
+
+
+    private boolean chooseCorrectRate(String newRate, RateInterest rate,ModelAndView modelAndView,
+                                      HttpServletRequest request,CookieLocaleResolver localeResolver){
+
+        String min_rate = String.valueOf(rateValidator.getEnv().getProperty("key.min.rate"));
+        String max_rate = String.valueOf(rateValidator.getEnv().getProperty("key.max.rate"));
+        if(!newRate.equals("")){
+            if(rateValidator.validate(newRate)){
+                rate.setRate(Double.parseDouble(newRate));
+            }else{
+                modelAndView.addObject("errorRate",
+                        messageSource.getMessage("incorrectValue", null, localeResolver.resolveLocale(request)));
+                modelAndView.setViewName("admin/rateInterest/addRate");
+                modelAndView.addObject("rate", rate);
+                return false;
+            }
+        }else{
+            modelAndView.addObject("errorRate",
+                    messageSource.getMessage(
+                            "key.rate", new String[]{min_rate,max_rate}, localeResolver.resolveLocale(request)));
+            modelAndView.setViewName("admin/rateInterest/addRate");
+            modelAndView.addObject("rate", rate);
+            return false;
+        }
+
+        if(rateValidator.validate(rate.getRate())){
+            interestService.save(rate);
+        }else{
+            modelAndView.addObject("errorRate",
+                    messageSource.getMessage(
+                            "key.rate", new String[]{min_rate,max_rate}, localeResolver.resolveLocale(request)));
+            modelAndView.setViewName("admin/rateInterest/addRate");
+            modelAndView.addObject("rate", rate);
+            return false;
+        }
+        return true;
+    }
+
     @RequestMapping(value = "/admin/listStatuses", method = RequestMethod.GET)
     public String listStatuses(Model model) {
         model.addAttribute("status", new CreditStatus());
@@ -332,5 +472,92 @@ public class AdminController {
 
         return "admin/creditType/listTypes";
     }
+
+
+//
+//    @RequestMapping(value = "/admin/deleteRole/{id}", method = RequestMethod.GET)
+//    public ModelAndView deleteRolesGet(@PathVariable long id) {
+//
+//        Role role = roleService.getById(id);
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("admin/role/deleteRole");
+//        modelAndView.addObject("role", role);
+//
+//        return modelAndView;
+//    }
+//
+//
+//    @RequestMapping(value = "/admin/deleteRole/{id}", method = RequestMethod.POST)
+//    public ModelAndView deleteRolePost(@ModelAttribute(name = "role") Role skillForm, BindingResult bindingResult,
+//                                       @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        Role role = roleService.getById(id);
+//
+//        if (role.getUsers().size() != 0) {
+//            modelAndView.addObject("errorDelete",
+//                    messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
+//            bindingResult.addError(null);
+//        }
+//
+//
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.setViewName("admin/role/deleteRole");
+//            modelAndView.addObject("role", role);
+//            return modelAndView;
+//        }
+//
+//        roleService.remove(role);
+//
+//        modelAndView.setViewName("admin/role/listRoles");
+//        modelAndView.addObject("listRoles", this.roleService.getAll());
+//        modelAndView.addObject("role", new Role());
+//
+//        return modelAndView;
+//    }
+//
+//    @RequestMapping(value = "/admin/editRole/{id}", method = RequestMethod.GET)
+//    public ModelAndView editRoleGet(@PathVariable long id) {
+//
+//        Role role = roleService.getById(id);
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("admin/role/editRole");
+//        modelAndView.addObject("role", role);
+//
+//        return modelAndView;
+//    }
+//
+//    @RequestMapping(value = "/admin/editRole/{id}", method = RequestMethod.POST)
+//    public ModelAndView editRolePost(@ModelAttribute(name = "role")Role role,BindingResult bindingResult,
+//                                     @PathVariable long id) {
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//
+//        Role roleFromDataBase = roleService.getById(id);
+//
+//        if(!role.equals(roleFromDataBase)){
+//
+//            roleValidator.validate(role,bindingResult);
+//
+//            if (bindingResult.hasErrors()) {
+//                modelAndView.setViewName("admin/role/editRole");
+//                modelAndView.addObject("role", role);
+//                return modelAndView;
+//            }
+//
+//            roleService.save(role);
+//        }
+//
+//        modelAndView.setViewName("admin/role/listRoles");
+//        modelAndView.addObject("listRoles", this.roleService.getAll());
+//        modelAndView.addObject("role", new Role());
+//
+//        return modelAndView;
+//    }
+//
+
+
+
 
 }
