@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Collection;
@@ -25,17 +26,21 @@ public class JpaRateDAOImpl implements RateDAO{
 
     private final static Logger logger = Logger.getLogger(JpaRateDAOImpl.class);
 
-    @SuppressWarnings("unchecked")
     @Override
     public RateInterest getById(Long id) {
-        Query query = this.entityManager.createQuery("SELECT rateInterest FROM  RateInterest rateInterest " +
-                "LEFT JOIN FETCH  rateInterest.credits WHERE rateInterest.id =:id");
-        query.setParameter("id", id);
 
-        RateInterest rateInterest = (RateInterest) query.getSingleResult();
-        logger.info("RateInterest successfully loaded. RateInterest details: " + rateInterest);
+        try {
+            Query query = this.entityManager.createQuery("SELECT rateInterest FROM  RateInterest rateInterest " +
+                    "LEFT JOIN FETCH  rateInterest.credits WHERE rateInterest.id =:id");
+            query.setParameter("id", id);
 
-        return rateInterest;
+            RateInterest rateInterest = (RateInterest) query.getSingleResult();
+            logger.info("RateInterest successfully loaded. RateInterest details: " + rateInterest);
+
+            return rateInterest;
+        }catch (NoResultException e){
+            return null;
+        }
     }
 
     @Override

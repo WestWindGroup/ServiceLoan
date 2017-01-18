@@ -30,7 +30,7 @@ public class JpaCreditStatusDAOImpl implements CreditStatusDAO {
     @Override
     public CreditStatus getById(Long id) {
         Query query = this.entityManager.createQuery("SELECT creditStatus FROM  CreditStatus creditStatus " +
-                "WHERE creditStatus.id =:id");
+                "LEFT JOIN FETCH  creditStatus.credits WHERE creditStatus.id =:id");
         query.setParameter("id", id);
 
         CreditStatus creditStatus = (CreditStatus) query.getSingleResult();

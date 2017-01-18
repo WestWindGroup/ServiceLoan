@@ -30,7 +30,7 @@ public class JpaCreditTypeDAOImpl implements CreditTypeDAO {
     @Override
     public CreditType getById(Long id) {
         Query query = this.entityManager.createQuery("SELECT creditType FROM  CreditType creditType " +
-                "WHERE creditType.id =:id");
+                "LEFT JOIN FETCH  creditType.credits WHERE creditType.id =:id");
         query.setParameter("id", id);
 
         CreditType creditType = (CreditType) query.getSingleResult();

@@ -3,10 +3,7 @@ package com.serviceloan.controller;
 
 import com.serviceloan.model.*;
 import com.serviceloan.service.*;
-import com.serviceloan.validator.RateInterestValidator;
-import com.serviceloan.validator.RoleValidator;
-import com.serviceloan.validator.UserEditValidator;
-import com.serviceloan.validator.UserRegistrationValidator;
+import com.serviceloan.validator.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -57,6 +54,12 @@ public class AdminController {
 
     @Autowired
     private RateInterestValidator rateValidator;
+
+    @Autowired
+    private CreditTypeValidator typeValidator;
+
+    @Autowired
+    private CreditStatusValidator statusValidator;
 
     @Autowired
     private MessageSource messageSource;
@@ -384,7 +387,7 @@ public class AdminController {
         RateInterest rate = interestService.getById(id);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/rate/deleteRate");
+        modelAndView.setViewName("admin/rateInterest/deleteRate");
         modelAndView.addObject("rate", rate);
 
         return modelAndView;
@@ -398,21 +401,21 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         RateInterest rateFromBase = interestService.getById(id);
 
-        if (rateFromBase.getCredits().size() != 0) {
+        if((rateFromBase.getCredits()!= null) && (rateFromBase.getCredits().size() != 0)) {
             modelAndView.addObject("errorDelete",
                     messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
             bindingResult.addError(null);
         }
 
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("admin/rate/deleteRate");
+            modelAndView.setViewName("admin/rateInterest/deleteRate");
             modelAndView.addObject("rate", rate);
             return modelAndView;
         }
 
         interestService.remove(rate);
 
-        modelAndView.setViewName("admin/rate/listRates");
+        modelAndView.setViewName("admin/rateInterest/listRates");
         modelAndView.addObject("listRates", this.interestService.getAll());
         modelAndView.addObject("rate", new RateInterest());
 
@@ -457,13 +460,6 @@ public class AdminController {
         return true;
     }
 
-    @RequestMapping(value = "/admin/listStatuses", method = RequestMethod.GET)
-    public String listStatuses(Model model) {
-        model.addAttribute("status", new CreditStatus());
-        model.addAttribute("listStatuses", this.statusService.getAll());
-
-        return "admin/creditStatus/listStatuses";
-    }
 
     @RequestMapping(value = "/admin/listTypes", method = RequestMethod.GET)
     public String listTypes(Model model) {
@@ -473,91 +469,235 @@ public class AdminController {
         return "admin/creditType/listTypes";
     }
 
+    @RequestMapping(value = "/admin/addType", method = RequestMethod.GET)
+    public String addTypeGet(Model model) {
+        CreditType type = new CreditType();
+        model.addAttribute("type", type);
 
-//
-//    @RequestMapping(value = "/admin/deleteRole/{id}", method = RequestMethod.GET)
-//    public ModelAndView deleteRolesGet(@PathVariable long id) {
-//
-//        Role role = roleService.getById(id);
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/role/deleteRole");
-//        modelAndView.addObject("role", role);
-//
-//        return modelAndView;
-//    }
-//
-//
-//    @RequestMapping(value = "/admin/deleteRole/{id}", method = RequestMethod.POST)
-//    public ModelAndView deleteRolePost(@ModelAttribute(name = "role") Role skillForm, BindingResult bindingResult,
-//                                       @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        Role role = roleService.getById(id);
-//
-//        if (role.getUsers().size() != 0) {
-//            modelAndView.addObject("errorDelete",
-//                    messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
-//            bindingResult.addError(null);
-//        }
-//
-//
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.setViewName("admin/role/deleteRole");
-//            modelAndView.addObject("role", role);
-//            return modelAndView;
-//        }
-//
-//        roleService.remove(role);
-//
-//        modelAndView.setViewName("admin/role/listRoles");
-//        modelAndView.addObject("listRoles", this.roleService.getAll());
-//        modelAndView.addObject("role", new Role());
-//
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value = "/admin/editRole/{id}", method = RequestMethod.GET)
-//    public ModelAndView editRoleGet(@PathVariable long id) {
-//
-//        Role role = roleService.getById(id);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("admin/role/editRole");
-//        modelAndView.addObject("role", role);
-//
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value = "/admin/editRole/{id}", method = RequestMethod.POST)
-//    public ModelAndView editRolePost(@ModelAttribute(name = "role")Role role,BindingResult bindingResult,
-//                                     @PathVariable long id) {
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        Role roleFromDataBase = roleService.getById(id);
-//
-//        if(!role.equals(roleFromDataBase)){
-//
-//            roleValidator.validate(role,bindingResult);
-//
-//            if (bindingResult.hasErrors()) {
-//                modelAndView.setViewName("admin/role/editRole");
-//                modelAndView.addObject("role", role);
-//                return modelAndView;
-//            }
-//
-//            roleService.save(role);
-//        }
-//
-//        modelAndView.setViewName("admin/role/listRoles");
-//        modelAndView.addObject("listRoles", this.roleService.getAll());
-//        modelAndView.addObject("role", new Role());
-//
-//        return modelAndView;
-//    }
-//
+        return "admin/creditType/addType";
+    }
+
+    @RequestMapping(value = "/admin/addType", method = RequestMethod.POST)
+    public ModelAndView addTypePost(@ModelAttribute(name = "type") CreditType type, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        typeValidator.validate(type,bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("admin/creditType/addType");
+            modelAndView.addObject("type", type);
+            return modelAndView;
+        }
+
+        typeService.save(type);
+
+        modelAndView.setViewName("admin/creditType/listTypes");
+        modelAndView.addObject("listTypes", this.typeService.getAll());
+        modelAndView.addObject("type", new CreditType());
+
+        return modelAndView;
+    }
 
 
+    @RequestMapping(value = "/admin/deleteType/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteTypeGet(@PathVariable long id) {
+
+        CreditType type = typeService.getById(id);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/creditType/deleteType");
+        modelAndView.addObject("type", type);
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/deleteType/{id}", method = RequestMethod.POST)
+    public ModelAndView deleteTypePost(@ModelAttribute(name = "type") CreditType type, BindingResult bindingResult,
+                                       @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        CreditType typeFromBase = typeService.getById(id);
+
+        if (typeFromBase.getCredits().size() != 0) {
+            modelAndView.addObject("errorDelete",
+                    messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
+            bindingResult.addError(null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("admin/creditType/deleteType");
+            modelAndView.addObject("type", type);
+            return modelAndView;
+        }
+
+        typeService.remove(type);
+
+        modelAndView.setViewName("admin/creditType/listTypes");
+        modelAndView.addObject("listTypes", this.typeService.getAll());
+        modelAndView.addObject("type", new CreditType());
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/editType/{id}", method = RequestMethod.GET)
+    public ModelAndView editTypeGet(@PathVariable long id) {
+
+        CreditType type = typeService.getById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/creditType/editType");
+        modelAndView.addObject("type", type);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/editType/{id}", method = RequestMethod.POST)
+    public ModelAndView editTypePost(@ModelAttribute(name = "type")CreditType type,BindingResult bindingResult,
+                                     @PathVariable long id) {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        Role roleFromDataBase = roleService.getById(id);
+
+        if(!type.equals(roleFromDataBase)){
+
+            typeValidator.validate(type,bindingResult);
+
+            if (bindingResult.hasErrors()) {
+                modelAndView.setViewName("admin/creditType/editType");
+                modelAndView.addObject("type", type);
+                return modelAndView;
+            }
+
+            typeService.save(type);
+        }
+
+        modelAndView.setViewName("admin/creditType/listTypes");
+        modelAndView.addObject("listTypes", this.typeService.getAll());
+        modelAndView.addObject("type", new CreditType());
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/listStatuses", method = RequestMethod.GET)
+    public String listStatuses(Model model) {
+        model.addAttribute("status", new CreditStatus());
+        model.addAttribute("listStatuses", this.statusService.getAll());
+
+        return "admin/creditStatus/listStatuses";
+    }
+
+
+    @RequestMapping(value = "/admin/addStatus", method = RequestMethod.GET)
+    public String addStatusGet(Model model) {
+        CreditStatus status = new CreditStatus();
+        model.addAttribute("status", status);
+
+        return "admin/creditStatus/addStatus";
+    }
+
+    @RequestMapping(value = "/admin/addStatus", method = RequestMethod.POST)
+    public ModelAndView addStatusPost(@ModelAttribute(name = "status") CreditStatus status, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        statusValidator.validate(status,bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("admin/creditStatus/addStatus");
+            modelAndView.addObject("status", status);
+            return modelAndView;
+        }
+
+        statusService.save(status);
+
+        modelAndView.setViewName("admin/creditStatus/listStatuses");
+        modelAndView.addObject("listStatuses", this.statusService.getAll());
+        modelAndView.addObject("status", new CreditStatus());
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/deleteStatus/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteStatusGet(@PathVariable long id) {
+
+        CreditStatus status = statusService.getById(id);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/creditStatus/deleteStatus");
+        modelAndView.addObject("status", status);
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/deleteStatus/{id}", method = RequestMethod.POST)
+    public ModelAndView deleteTypePost(@ModelAttribute(name = "status") CreditStatus status, BindingResult bindingResult,
+                                       @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        CreditStatus statusFromBase = statusService.getById(id);
+
+        if (statusFromBase.getCredits().size() != 0) {
+            modelAndView.addObject("errorDelete",
+                    messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
+            bindingResult.addError(null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("admin/creditStatus/deleteStatus");
+            modelAndView.addObject("status", status);
+            return modelAndView;
+        }
+
+        statusService.remove(status);
+
+        modelAndView.setViewName("admin/creditStatus/listStatuses");
+        modelAndView.addObject("listStatuses", this.statusService.getAll());
+        modelAndView.addObject("status", new CreditStatus());
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/editStatus/{id}", method = RequestMethod.GET)
+    public ModelAndView editStatusesGet(@PathVariable long id) {
+
+        CreditStatus status = statusService.getById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/creditStatus/editStatus");
+        modelAndView.addObject("status", status);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/editStatus/{id}", method = RequestMethod.POST)
+    public ModelAndView editStatusPost(@ModelAttribute(name = "status")CreditStatus status,BindingResult bindingResult,
+                                     @PathVariable long id) {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        CreditStatus statusFromDataBase = statusService.getById(id);
+
+        if(!status.equals(statusFromDataBase)){
+
+            statusValidator.validate(status,bindingResult);
+
+            if (bindingResult.hasErrors()) {
+                modelAndView.setViewName("admin/creditStatus/editStatus");
+                modelAndView.addObject("status", status);
+                return modelAndView;
+            }
+
+            statusService.save(status);
+        }
+
+        modelAndView.setViewName("admin/creditStatus/listStatuses");
+        modelAndView.addObject("listStatuses", this.statusService.getAll());
+        modelAndView.addObject("status", new CreditStatus());
+
+        return modelAndView;
+    }
 
 
 }

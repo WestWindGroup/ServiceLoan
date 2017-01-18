@@ -54,7 +54,6 @@
             </div>
         </spring:bind>
 
-
         <button type="submit">
             <h4 class="text-center">
                 <spring:message code="button.accept"/>

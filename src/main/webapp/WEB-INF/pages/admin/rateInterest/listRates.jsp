@@ -29,8 +29,8 @@
             <tr>
                 <td>${rate.id}</td>
                 <td>${rate.rate}</td>
-                <td width="80"><a href="/admin/editRate/${rate.id}">Edit</a></td>
-                <td width="80"><a href="/admin/deleteRate/${rate.id}">Delete</a></td>
+                <td width="50"><a href="/admin/editRate/${rate.id}">Edit</a></td>
+                <td width="50"><a href="/admin/deleteRate/${rate.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>

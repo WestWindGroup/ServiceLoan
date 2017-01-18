@@ -28,9 +28,7 @@ public class Client extends BaseEntity {
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @OneToMany
-    @JoinTable(name = "client_credits", joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")})
+    @OneToMany(mappedBy = "client")
     private Set<Credit> creditSet;
 
     @PrePersist
