@@ -29,7 +29,7 @@ public class JpaClientDAOImpl implements ClientDAO{
     @Override
     public Client getById(Long id) {
         Query query = this.entityManager.createQuery("SELECT client FROM  Client client " +
-                "WHERE client.id =:id");
+                "LEFT JOIN FETCH  client.creditSet WHERE client.id =:id");
         query.setParameter("id", id);
 
         Client client = (Client) query.getSingleResult();

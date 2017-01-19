@@ -1,5 +1,7 @@
 package com.serviceloan.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -25,10 +27,11 @@ public class Client extends BaseEntity {
     private Date registrationDate;
 
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "client")
     private Set<Credit> creditSet;
 
     @PrePersist
@@ -97,4 +100,5 @@ public class Client extends BaseEntity {
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
         return result;
     }
+
 }

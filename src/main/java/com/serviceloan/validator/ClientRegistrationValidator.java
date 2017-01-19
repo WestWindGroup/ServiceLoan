@@ -20,10 +20,6 @@ public class ClientRegistrationValidator extends ClientValidator {
 
         Client client = (Client) ob;
 
-        validateField("firstName",errors);
-
-        validateField("lastName",errors);
-
         validateFirstName(client,errors);
 
         validateLastName(client,errors);

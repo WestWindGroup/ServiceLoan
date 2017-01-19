@@ -56,4 +56,5 @@ public class CreditStatus extends BaseEntity{
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
+
 }

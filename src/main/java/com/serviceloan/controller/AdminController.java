@@ -90,7 +90,7 @@ public class AdminController {
     public ModelAndView addRolePost(@ModelAttribute(name = "role") Role role, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
 
-        roleValidator.validate(role,bindingResult);
+        roleValidator.validate(role, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("admin/role/addRole");
@@ -161,16 +161,16 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/editRole/{id}", method = RequestMethod.POST)
-    public ModelAndView editRolePost(@ModelAttribute(name = "role")Role role,BindingResult bindingResult,
-                                   @PathVariable long id) {
+    public ModelAndView editRolePost(@ModelAttribute(name = "role") Role role, BindingResult bindingResult,
+                                     @PathVariable long id) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         Role roleFromDataBase = roleService.getById(id);
 
-        if(!role.equals(roleFromDataBase)){
+        if (!role.equals(roleFromDataBase)) {
 
-            roleValidator.validate(role,bindingResult);
+            roleValidator.validate(role, bindingResult);
 
             if (bindingResult.hasErrors()) {
                 modelAndView.setViewName("admin/role/editRole");
@@ -187,8 +187,6 @@ public class AdminController {
 
         return modelAndView;
     }
-
-
 
 
     @RequestMapping(value = "/admin/listUsers", method = RequestMethod.GET)
@@ -243,33 +241,35 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/editUser/{id}", method = RequestMethod.POST)
-    public ModelAndView editUserPost(@ModelAttribute("user") User user, BindingResult bindingResult,
-                                     @PathVariable long id, HttpServletRequest request) {
+    public ModelAndView editUserPost(@ModelAttribute("user") User userForm, BindingResult bindingResult,
+                                     @PathVariable long id, HttpServletRequest request) throws IOException {
 
         ModelAndView modelAndView = new ModelAndView();
+        userForm.setFirstName(new String(userForm.getFirstName().getBytes("ISO-8859-1"), "UTF-8"));
+        userForm.setLastName(new String(userForm.getLastName().getBytes("ISO-8859-1"), "UTF-8"));
 
         User userFromDataBase = userService.getById(id);
 
         String newPassword = request.getParameter("newPassword");
 
         if (newPassword.equals("")) {
-            user.setPassword(userFromDataBase.getPassword());
+            userForm.setPassword(userFromDataBase.getPassword());
         } else {
-            user.setPassword(newPassword);
+            userForm.setPassword(newPassword);
         }
 
 
-        if (!user.equals(userFromDataBase)) {
+        if (!userForm.equals(userFromDataBase)) {
 
-            userEditValidator.validate(user, bindingResult);
+            userEditValidator.validate(userForm, bindingResult);
 
             if (bindingResult.hasErrors()) {
                 modelAndView.setViewName("admin/user/editUser");
-                modelAndView.addObject("user", user);
+                modelAndView.addObject("user", userForm);
                 return modelAndView;
             }
 
-            userService.save(user);
+            userService.save(userForm);
         }
         modelAndView.setViewName("admin/user/listUsers");
         modelAndView.addObject("listUsers", this.userService.getAll());
@@ -335,7 +335,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
 
         String newRate = request.getParameter("rate");
-        if(!chooseCorrectRate(newRate,rate,modelAndView, request,localeResolver)){
+        if (!checkCorrectRate(newRate, rate, modelAndView, request, localeResolver)) {
             return modelAndView;
         }
 
@@ -359,7 +359,7 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/editRate/{id}", method = RequestMethod.POST)
     public ModelAndView editRatePost(@ModelAttribute("rate") RateInterest rate, @PathVariable long id,
-                                     HttpServletRequest request,CookieLocaleResolver localeResolver) {
+                                     HttpServletRequest request, CookieLocaleResolver localeResolver) {
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -367,8 +367,8 @@ public class AdminController {
 
         String newRate = request.getParameter("rate");
 
-        if(!newRate.equals(String.valueOf(rateFromDataBase.getRate()))){
-            if(!chooseCorrectRate(newRate,rate,modelAndView, request,localeResolver)){
+        if (!newRate.equals(String.valueOf(rateFromDataBase.getRate()))) {
+            if (!checkCorrectRate(newRate, rate, modelAndView, request, localeResolver)) {
                 return modelAndView;
             }
         }
@@ -401,7 +401,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         RateInterest rateFromBase = interestService.getById(id);
 
-        if((rateFromBase.getCredits()!= null) && (rateFromBase.getCredits().size() != 0)) {
+        if ((rateFromBase.getCredits() != null) && (rateFromBase.getCredits().size() != 0)) {
             modelAndView.addObject("errorDelete",
                     messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
             bindingResult.addError(null);
@@ -423,36 +423,34 @@ public class AdminController {
     }
 
 
-    private boolean chooseCorrectRate(String newRate, RateInterest rate,ModelAndView modelAndView,
-                                      HttpServletRequest request,CookieLocaleResolver localeResolver){
+    private boolean checkCorrectRate(String newRate, RateInterest rate, ModelAndView modelAndView,
+                                      HttpServletRequest request, CookieLocaleResolver localeResolver) {
 
         String min_rate = String.valueOf(rateValidator.getEnv().getProperty("key.min.rate"));
         String max_rate = String.valueOf(rateValidator.getEnv().getProperty("key.max.rate"));
-        if(!newRate.equals("")){
-            if(rateValidator.validate(newRate)){
+        String msg = messageSource.getMessage(
+                "key.credit", new String[]{min_rate, max_rate}, localeResolver.resolveLocale(request));
+        if (!newRate.equals("")) {
+            if (rateValidator.validate(newRate)) {
                 rate.setRate(Double.parseDouble(newRate));
-            }else{
+            } else {
                 modelAndView.addObject("errorRate",
                         messageSource.getMessage("incorrectValue", null, localeResolver.resolveLocale(request)));
                 modelAndView.setViewName("admin/rateInterest/addRate");
                 modelAndView.addObject("rate", rate);
                 return false;
             }
-        }else{
-            modelAndView.addObject("errorRate",
-                    messageSource.getMessage(
-                            "key.rate", new String[]{min_rate,max_rate}, localeResolver.resolveLocale(request)));
+        } else {
+            modelAndView.addObject("errorRate",msg);
             modelAndView.setViewName("admin/rateInterest/addRate");
             modelAndView.addObject("rate", rate);
             return false;
         }
 
-        if(rateValidator.validate(rate.getRate())){
+        if (rateValidator.validate(rate.getRate())) {
             interestService.save(rate);
-        }else{
-            modelAndView.addObject("errorRate",
-                    messageSource.getMessage(
-                            "key.rate", new String[]{min_rate,max_rate}, localeResolver.resolveLocale(request)));
+        } else {
+            modelAndView.addObject("errorRate",msg);
             modelAndView.setViewName("admin/rateInterest/addRate");
             modelAndView.addObject("rate", rate);
             return false;
@@ -481,7 +479,7 @@ public class AdminController {
     public ModelAndView addTypePost(@ModelAttribute(name = "type") CreditType type, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
 
-        typeValidator.validate(type,bindingResult);
+        typeValidator.validate(type, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("admin/creditType/addType");
@@ -552,16 +550,16 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/editType/{id}", method = RequestMethod.POST)
-    public ModelAndView editTypePost(@ModelAttribute(name = "type")CreditType type,BindingResult bindingResult,
+    public ModelAndView editTypePost(@ModelAttribute(name = "type") CreditType type, BindingResult bindingResult,
                                      @PathVariable long id) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         Role roleFromDataBase = roleService.getById(id);
 
-        if(!type.equals(roleFromDataBase)){
+        if (!type.equals(roleFromDataBase)) {
 
-            typeValidator.validate(type,bindingResult);
+            typeValidator.validate(type, bindingResult);
 
             if (bindingResult.hasErrors()) {
                 modelAndView.setViewName("admin/creditType/editType");
@@ -601,7 +599,7 @@ public class AdminController {
     public ModelAndView addStatusPost(@ModelAttribute(name = "status") CreditStatus status, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
 
-        statusValidator.validate(status,bindingResult);
+        statusValidator.validate(status, bindingResult);
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("admin/creditStatus/addStatus");
@@ -672,16 +670,16 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/editStatus/{id}", method = RequestMethod.POST)
-    public ModelAndView editStatusPost(@ModelAttribute(name = "status")CreditStatus status,BindingResult bindingResult,
-                                     @PathVariable long id) {
+    public ModelAndView editStatusPost(@ModelAttribute(name = "status") CreditStatus status, BindingResult bindingResult,
+                                       @PathVariable long id) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         CreditStatus statusFromDataBase = statusService.getById(id);
 
-        if(!status.equals(statusFromDataBase)){
+        if (!status.equals(statusFromDataBase)) {
 
-            statusValidator.validate(status,bindingResult);
+            statusValidator.validate(status, bindingResult);
 
             if (bindingResult.hasErrors()) {
                 modelAndView.setViewName("admin/creditStatus/editStatus");

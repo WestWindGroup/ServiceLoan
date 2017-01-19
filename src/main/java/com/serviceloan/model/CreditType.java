@@ -37,4 +37,23 @@ public class CreditType extends BaseEntity {
     public void setCredits(Set<Credit> credits) {
         this.credits = credits;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        CreditType that = (CreditType) o;
+
+        return type != null ? type.equals(that.type) : that.type == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
+
 }

@@ -1,13 +1,11 @@
 package com.serviceloan.controller;
 
 import com.serviceloan.model.Client;
-import com.serviceloan.model.User;
 import com.serviceloan.service.ClientService;
 import com.serviceloan.service.CreditService;
 import com.serviceloan.service.UserService;
 import com.serviceloan.validator.ClientEditValidator;
 import com.serviceloan.validator.ClientRegistrationValidator;
-import com.serviceloan.validator.ClientValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -18,12 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
- * Controller for Admin's pages (list of users, project management, etc.)
+ * Controller for Admin's pages
  *
  * @author Eugene Artemenko
  */
@@ -68,13 +65,11 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/user/addClient", method = RequestMethod.POST)
-    public ModelAndView addClientsPost(@ModelAttribute(name = "client")Client client, BindingResult bindingResult,
-                                  HttpServletRequest request, CookieLocaleResolver localeResolver) {
+    public ModelAndView addClientsPost(@ModelAttribute(name = "client")Client client,
+                                       BindingResult bindingResult) throws IOException {
         ModelAndView modelAndView = new ModelAndView();
-
-        if(confirmUser(request,localeResolver,modelAndView)){
-            bindingResult.addError(null);
-        }
+        client.setFirstName(new String(client.getFirstName().getBytes("ISO-8859-1"), "UTF-8"));
+        client.setLastName(new String(client.getLastName().getBytes("ISO-8859-1"), "UTF-8"));
 
         registrationValidator.validate(client,bindingResult);
 
@@ -97,8 +92,9 @@ public class ClientController {
 
         Client client = clientService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user/client/pageClient");
         modelAndView.addObject("client", client);
-        modelAndView.addObject("listCredits", this.creditService.getAllCreditsClient(client.getId()));
+        modelAndView.addObject("listCredits", client.getCreditSet());
 
         return modelAndView;
     }
@@ -109,56 +105,36 @@ public class ClientController {
 
         Client client = clientService.getById(id);
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user/client/editClient");
         modelAndView.addObject("client", client);
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/user/editClient/{id}", method = RequestMethod.POST)
-    public ModelAndView editClientPost(@ModelAttribute(name = "client")Client client, BindingResult bindingResult,
-                                   @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
+    public ModelAndView editClientPost(@ModelAttribute(name = "client")Client client,BindingResult bindingResult,
+                                       @PathVariable long id) throws IOException{
 
         ModelAndView modelAndView = new ModelAndView();
+        client.setFirstName(new String(client.getFirstName().getBytes("ISO-8859-1"), "UTF-8"));
+        client.setLastName(new String(client.getLastName().getBytes("ISO-8859-1"), "UTF-8"));
 
         Client clientFromDataBase = clientService.getById(id);
 
         if(!client.equals(clientFromDataBase)){
-            if(confirmUser(request,localeResolver,modelAndView)){
-                bindingResult.addError(null);
-            }
-
             editValidator.validate(client,bindingResult);
+            client.setRegistrationDate(clientFromDataBase.getRegistrationDate());
+            modelAndView.addObject("client", client);
 
             if (bindingResult.hasErrors()) {
                 modelAndView.setViewName("user/client/editClient");
-                modelAndView.addObject("client", client);
                 return modelAndView;
             }
-
             clientService.save(client);
         }
-        modelAndView.setViewName("user/client/listClients");
-        modelAndView.addObject("listClients", this.clientService.getAll());
-        modelAndView.addObject("client", new Client());
-
+        modelAndView.addObject("client", clientService.getById(id));
+        modelAndView.setViewName("user/client/pageClient");
         return modelAndView;
     }
 
-
-    private boolean confirmUser(HttpServletRequest request,CookieLocaleResolver localeResolver,
-                             ModelAndView modelAndView){
-        User userFromDataBase = userService.findByUserName(request.getUserPrincipal().getName());
-
-        String oldPassword = request.getParameter("oldPassword");
-
-        userFromDataBase.setConfirmPassword(oldPassword);
-
-        if((oldPassword == null)||
-                (!userService.coincidencePassword(userFromDataBase.getConfirmPassword(),userFromDataBase.getPassword()))){
-            modelAndView.addObject("errorConfirmPassword",
-                    messageSource.getMessage("key.password.incorrect", null, localeResolver.resolveLocale(request)));
-            return true;
-        }
-        return false;
-    }
 }

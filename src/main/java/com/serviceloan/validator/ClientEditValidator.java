@@ -24,12 +24,10 @@ public class ClientEditValidator extends ClientValidator {
         Client clientOld = clientService.getById(client.getId());
 
         if(!client.getFirstName().equals(clientOld.getFirstName())){
-            validateField("firstName",errors);
             validateFirstName(client,errors);
         }
 
         if(!client.getLastName().equals(clientOld.getLastName())){
-            validateField("lastName",errors);
             validateLastName(client,errors);
         }
 

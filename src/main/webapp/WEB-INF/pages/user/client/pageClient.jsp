@@ -30,79 +30,85 @@
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
-<table class="tg">
-    <tr>
-        <th width="80">ID</th>
-        <th width="180"><spring:message code="listClient.table.client.name"/></th>
-        <th width="180"><spring:message code="listClient.table.client.lastname"/></th>
-        <th width="180"><spring:message code="listClient.table.client.registrationDate"/></th>
-        <th width="180"><spring:message code="listClient.table.client.birthDate"/></th>
-    </tr>
-</table>
 <div class="container">
-
-
-    <form:form method="POST" modelAttribute="client" class="form-signin">
-        <h2 class="form-signin-heading">
-            <spring:message code="pageClient.head"/>
-        </h2>
-
+    <div class="head-listClient">
+        <h1><spring:message code="pageClient.head"/></h1>
+    </div>
+    <c:if test="${!empty client}">
+        <table class="tg">
+            <tr>
+                <th width="10%">ID</th>
+                <th width="24%"><spring:message code="listClient.table.client.name"/></th>
+                <th width="22%"><spring:message code="listClient.table.client.lastname"/></th>
+                <th width="22%"><spring:message code="listClient.table.client.birthDate"/></th>
+                <th width="22%"><spring:message code="listClient.table.client.registrationDate"/></th>
+            </tr>
+            <tr>
+                <td>${client.id}</td>
+                <td>${client.firstName}</td>
+                <td>${client.lastName}</td>
+                <td>${client.birthDate}</td>
+                <td>${client.registrationDate}</td>
+                <td width="80">
+                    <h5>
+                        <a href="/user/editClient/${client.id}">
+                            <spring:message code="listClient.button.editClient"/>
+                        </a>
+                    </h5>
+                </td>
+            </tr>
+        </table>
+    </c:if>
+    <div class="listCreditsClient_head">
+        <h3><spring:message code="pageClient.credits"/></h3>
+    </div>
+    <table class="tg-credits">
         <tr>
-            <td width="80">${client.id}</td>
-            <td width="180">
-                <spring:bind path="firstName">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <spring:message code="listClient.table.client.name" var="firstName"/>
-                        <form:input type="text" path="firstName" class="form-control" placeholder='${firstName}'
-                                   disabled="true" autofocus="true"/>
+            <th width="6%">ID</th>
+            <th width="13%"><spring:message code="listCredit.table.credit.openDate"/></th>
+            <th width="13%"><spring:message code="listCredit.table.credit.shutDate"/></th>
+            <th width="13%"><spring:message code="listCredit.table.credit.amount"/></th>
+            <th width="13%"><spring:message code="listCredit.table.credit.debt"/></th>
+            <th width="10%"><spring:message code="listCredit.table.credit.percent"/></th>
+            <th width="16%"><spring:message code="listCredit.table.credit.creditType"/></th>
+            <th width="16%"><spring:message code="listCredit.table.credit.creditStatus"/></th>
 
-                        <form:errors path="firstName"/>
-                    </div>
-                </spring:bind>
-            </td>
-            <td width="180">
-                <spring:bind path="lastName">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <spring:message code="listClient.table.client.lastname" var="lastName"/>
-                        <form:input type="text" path="lastName" class="form-control" placeholder='${lastName}'
-                                    disabled="true" autofocus="true"/>
-
-                        <form:errors path="lastName"/>
-                    </div>
-                </spring:bind>
-            </td>
-            <td width="180">
-                <spring:bind path="registrationDate">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <spring:message code="listClient.table.client.registrationDate" var="registrationDate"/>
-                        <form:input type="text" path="registrationDate" class="form-control" placeholder='${registrationDate}'
-                                    disabled="true" autofocus="true"/>
-
-                        <form:errors path="registrationDate"/>
-                    </div>
-                </spring:bind>
-            </td>
-            <td width="180">
-                <spring:bind path="birthDate">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <spring:message code="listClient.table.client.birthDate" var="birthDate"/>
-                        <form:input type="text" path="birthDate" class="form-control" placeholder='${birthDate}'
-                                    disabled="true" autofocus="true"/>
-
-                        <form:errors path="birthDate"/>
-                    </div>
-                </spring:bind>
-            </td>
-            <td width="80">
-                <h5 class="text-center">
-                    <a href="/user/editClient/${client.id}">
-                        <spring:message code="pageClient.button.edit"/>
-                    </a>
-                </h5>
-            </td>
         </tr>
+        <c:if test="${!empty listCredits}">
 
-    </form:form>
+            <c:forEach items="${listCredits}" var="credit">
+                <tr>
+                    <td>${credit.id}</td>
+                    <td>${credit.openDate}</td>
+                    <td>${credit.shutDate}</td>
+                    <td>${credit.amount}</td>
+                    <td>${credit.debt}</td>
+                    <td>${credit.percent}</td>
+                    <td>${credit.creditType}</td>
+                    <td>${credit.creditStatus}</td>
+                    <td width="80">
+                        <h5 class="text-center">
+                            <a href="/credit/pageCredit/${credit.id}">
+                                <spring:message code="listCredit.button.showCredit"/>
+                            </a>
+                        </h5>
+                    </td>
+
+                </tr>
+            </c:forEach>
+        </c:if>
+
+    </table>
+    <button class="funcButton"  onclick="location.href = '${contextPath}/user/addCredit/${client.id}'">
+        <h4 class="text-center">
+            <spring:message code="buttons.newCredit"/>
+        </h4>
+    </button>
+    <button class="backButton"  onclick="location.href = '${contextPath}/user/listClients'">
+        <h4 class="text-center">
+            <spring:message code="buttons.back"/>
+        </h4>
+    </button>
 
 </div>
 

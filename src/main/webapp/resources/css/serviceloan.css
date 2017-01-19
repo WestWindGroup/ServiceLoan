@@ -1,3 +1,26 @@
+.backButton{
+    position: absolute;
+    top: 85%;
+    left: 85%;
+    width: 5%;
+    color: #21a051;
+}
+.funcButton{
+    position: absolute;
+    top: 55%;
+    left: 85%;
+    width: 5%;
+    color: #21a051;
+}
+.form{
+    position: absolute;
+    top: 25%;
+    left: 30%;
+    width: 30%;
+}
+.form button{
+
+}
 .head {
     position: absolute;
     top: 15%;
@@ -40,7 +63,7 @@
 .block2-listClient{
     width: 50%;
     float: left;
-    text-align: left;
+    text-align: center;
     color: #21a051;
 }
 .head-listClient{
@@ -93,7 +116,62 @@
     top: 10%;
     left: 15%;
 }
+.listCreditsClient{
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    width: 60%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+.listCreditsClient_head{
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    color: #21a051;
+}
+.tg-credits{
+    position: absolute;
+    top: 35%;
+    left: 15%;
+    width: 60%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+.tg-credits td {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
 
+.tg-credits th {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+.tg-credits .tg-4eph {
+    background-color: #f9f9f9
+}
 .tg {
     position: absolute;
     top: 20%;
@@ -105,6 +183,7 @@
 }
 
 .tg td {
+    text-align: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
     padding: 10px 5px;
@@ -118,6 +197,7 @@
 }
 
 .tg th {
+    text-align: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
     font-weight: normal;
