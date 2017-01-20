@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Page client</title>
+    <title>Page credit</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet">
@@ -38,29 +38,18 @@
         <table class="tg">
             <tr>
                 <th width="10%">ID</th>
-                <th width="24%"><spring:message code="listClient.table.client.name"/></th>
-                <th width="22%"><spring:message code="listClient.table.client.lastname"/></th>
-                <th width="22%"><spring:message code="listClient.table.client.birthDate"/></th>
-                <th width="22%"><spring:message code="listClient.table.client.registrationDate"/></th>
+                <th width="30%"><spring:message code="listClient.table.client.name"/></th>
+                <th width="30%"><spring:message code="listClient.table.client.lastname"/></th>
             </tr>
             <tr>
                 <td>${client.id}</td>
                 <td>${client.firstName}</td>
                 <td>${client.lastName}</td>
-                <td>${client.birthDate}</td>
-                <td>${client.registrationDate}</td>
-                <td width="80">
-                    <h5>
-                        <a href="/user/editClient/${client.id}">
-                            <spring:message code="listClient.button.editClient"/>
-                        </a>
-                    </h5>
-                </td>
             </tr>
         </table>
     </c:if>
     <div class="listCreditsClient_head">
-        <h3><spring:message code="pageClient.credits"/></h3>
+        <h3><spring:message code="pageClient.credit"/></h3>
     </div>
     <table class="tg-credits">
         <tr>
@@ -75,38 +64,36 @@
             <th width="12%"><spring:message code="listCredit.table.credit.creditDuration"/></th>
 
         </tr>
-        <c:if test="${!empty listCredits}">
+        <c:if test="${!empty credit}">
+            <tr>
+                <td>${credit.id}</td>
+                <td>${credit.openDate}</td>
+                <td>${credit.shutDate}</td>
+                <td>${credit.amount}</td>
+                <td>${credit.debt}</td>
+                <td>${credit.percent.rate}</td>
+                <td>${credit.creditType.type}</td>
+                <td>${credit.creditStatus.status}</td>
+                <td>${credit.duration.duration}</td>
+                <td width="80">
+                    <h5 class="text-center">
+                        <a href="/credit/pageCredit/${credit.id}">
+                            <spring:message code="listCredit.button.showCredit"/>
+                        </a>
+                    </h5>
+                </td>
 
-            <c:forEach items="${listCredits}" var="credit">
-                <tr>
-                    <td>${credit.id}</td>
-                    <td>${credit.openDate}</td>
-                    <td>${credit.shutDate}</td>
-                    <td>${credit.amount}</td>
-                    <td>${credit.debt}</td>
-                    <td>${credit.percent.rate}</td>
-                    <td>${credit.creditType.type}</td>
-                    <td>${credit.creditStatus.status}</td>
-                    <td>${credit.duration.duration}</td>
-                    <td width="80">
-                        <h5 class="text-center">
-                            <a href="/credit/pageCredit/${credit.id}">
-                                <spring:message code="listCredit.button.showCredit"/>
-                            </a>
-                        </h5>
-                    </td>
-
-                </tr>
-            </c:forEach>
+            </tr>
         </c:if>
 
     </table>
-    <button class="funcButton"  onclick="location.href = '${contextPath}/user/addCredit/${client.id}'">
+
+    <button class="funcButton" onclick="location.href = '${contextPath}/user/addCredit/${client.id}'">
         <h4 class="text-center">
-            <spring:message code="buttons.newCredit"/>
+            <spring:message code="buttons.listPayments"/>
         </h4>
     </button>
-    <button class="backButton"  onclick="location.href = '${contextPath}/user/listClients'">
+    <button class="backButton" onclick="location.href = '${contextPath}/user/listClients'">
         <h4 class="text-center">
             <spring:message code="buttons.back"/>
         </h4>

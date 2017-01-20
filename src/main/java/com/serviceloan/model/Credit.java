@@ -36,6 +36,11 @@ public class Credit extends BaseEntity{
     private RateInterest percent;
 
     @ManyToOne
+    @JoinTable(name = "credit_duration", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "duration_id", referencedColumnName = "id")})
+    private CreditDuration duration;
+
+    @ManyToOne
     @JoinTable(name = "credit_type", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "type_id", referencedColumnName = "id")})
     private CreditType creditType;
@@ -46,8 +51,8 @@ public class Credit extends BaseEntity{
     private CreditStatus creditStatus;
 
     @ManyToOne
-    @JoinTable(name = "client_credits", joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")})
+    @JoinTable(name = "client_credits", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")})
     private Client client;
 
     @PrePersist
@@ -93,6 +98,14 @@ public class Credit extends BaseEntity{
 
     public void setPercent(RateInterest percent) {
         this.percent = percent;
+    }
+
+    public CreditDuration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(CreditDuration duration) {
+        this.duration = duration;
     }
 
     public CreditType getCreditType() {

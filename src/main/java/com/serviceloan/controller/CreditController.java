@@ -49,17 +49,19 @@ public class CreditController {
     private CreditStatusService statusService;
 
     @Autowired
+    private CreditDurationService durationService;
+
+    @Autowired
     private MessageSource messageSource;
 
 
     @RequestMapping(value = "/user/addCredit/{id}", method = RequestMethod.GET)
-    public String addCreditGet(Model model) {
-//        Client client = clientService.getById(id);
-//        model.addAttribute("credit", new Credit());
-//        model.addAttribute("client", client);
+    public String addCreditGet(Model model,@PathVariable long id) {
+        model.addAttribute("client", clientService.getById(id));
         model.addAttribute("listRates", interestService.getAll());
         model.addAttribute("listTypes", typeService.getAll());
         model.addAttribute("listStatus", statusService.getAll());
+        model.addAttribute("listDuration", durationService.getAll());
 
         return "user/credit/addCredit";
     }
@@ -97,53 +99,37 @@ public class CreditController {
             }
         }
 
-        if (!checkCorrectAmount(newCredit, credit, modelAndView, request, localeResolver)) {
+        String durationStr = request.getParameter("duration");
+        int duration = Integer.parseInt(durationStr);
+
+        Collection<CreditDuration> durations = durationService.getAll();
+        for (CreditDuration obj:durations) {
+            if(duration == obj.getDuration()){
+                credit.setDuration(obj);
+            }
+        }
+
+        if (!creditValidator.checkCorrectAmount(newCredit, credit, modelAndView, request, localeResolver)) {
+            modelAndView.addObject("client", clientService.getById(id));
+            modelAndView.addObject("listRates", interestService.getAll());
+            modelAndView.addObject("listTypes", typeService.getAll());
+            modelAndView.addObject("listStatus", statusService.getAll());
+            modelAndView.addObject("listDuration", durationService.getAll());
             return modelAndView;
         }
 
         credit.setDebt(credit.getAmount());
 
         Client client = clientService.getById(id);
-        client.getCreditSet().add(credit);
-        clientService.save(client);
+        credit.setClient(client);
+        creditService.save(credit);
+        client = clientService.getById(id);
         modelAndView.setViewName("user/client/pageClient");
-        modelAndView.addObject("listCredits", client.getCreditSet());
         modelAndView.addObject("client", client);
+        modelAndView.addObject("listCredits", client.getCreditSet());
+
 
         return modelAndView;
     }
 
-    private boolean checkCorrectAmount(String newCredit, Credit credit, ModelAndView modelAndView,
-                                      HttpServletRequest request, CookieLocaleResolver localeResolver) {
-
-        String min_amount = String.valueOf(creditValidator.getEnv().getProperty("key.min.amount"));
-        String max_amount = String.valueOf(creditValidator.getEnv().getProperty("key.max.amount"));
-        String msg = messageSource.getMessage(
-                "key.credit", new String[]{min_amount, max_amount}, localeResolver.resolveLocale(request));
-        if (!newCredit.equals("")) {
-            if (creditValidator.validate(newCredit)) {
-                credit.setAmount(new BigDecimal(newCredit));
-            } else {
-                modelAndView.addObject("errorAmount",
-                        messageSource.getMessage("incorrectValue", null, localeResolver.resolveLocale(request)));
-                modelAndView.setViewName("user/credit/addCredit");
-                modelAndView.addObject("credit", credit);
-                return false;
-            }
-        } else {
-            modelAndView.addObject("errorRate",msg);
-            modelAndView.setViewName("user/credit/addCredit");
-            modelAndView.addObject("credit", credit);
-            return false;
-        }
-
-        if (creditValidator.validate(credit.getAmount())) {
-            return true;
-        } else {
-            modelAndView.addObject("errorRate",msg);
-            modelAndView.setViewName("user/credit/addCredit");
-            modelAndView.addObject("credit", credit);
-            return false;
-        }
-    }
 }

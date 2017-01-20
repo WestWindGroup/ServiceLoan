@@ -21,9 +21,9 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-    <title>Add rate interest</title>
+    <title>Edit duration</title>
 
-    <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet" >
+    <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet">
 
 </head>
 
@@ -39,28 +39,26 @@
 <br/>
 <br/>
 <div class="container">
-
-
-    <form:form method="POST" modelAttribute="rate" class="form-signin">
+    <form:form method="POST" modelAttribute="duration" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="addRate.head"/>
+            <spring:message code="editDuration.head"/>
         </h2>
-        <div class="form-group ${errorRate != null ? 'has-error' : ''}">
-            <spring:message code="addRole.placeholder.rate" var="NameRate"/>
-            <input name="rateInput" type="text" class="form-control" autofocus="true"
-                   placeholder='${NameRate}'/>
-            <span>${errorRate}</span>
+        <div class="form-group ${errorDuration != null ? 'has-error' : ''}">
+            <spring:message code="addDuration.placeholder.duration" var="Nameduration"/>
+            <input name="duration" type="text" value="${duration.duration}" class="form-control" autofocus="true"
+                   placeholder='${Nameduration}'/>
+            <span>${errorDuration}</span>
         </div>
+
         <button type="submit">
             <h4 class="text-center">
                 <spring:message code="button.accept"/>
             </h4>
         </button>
-
     </form:form>
     <div class="block-button">
         <div class="block1-listClient">
-            <button id="cancelButton"  onclick="location.href = '${contextPath}/admin/listRates'">
+            <button id="cancelButton"  onclick="location.href = '${contextPath}/admin/listDurations'">
                 <h4 class="text-center">
                     <spring:message code="button.backEn"/>
                 </h4>

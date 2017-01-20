@@ -52,6 +52,7 @@
     <h3><a href="/admin/listStatuses"><spring:message code="admin.link.statuses"/></a></h3>
     <h3><a href="/admin/listTypes"><spring:message code="admin.link.credittype"/></a></h3>
     <h3><a href="/admin/listRoles"><spring:message code="admin.link.roles"/></a></h3>
+    <h3><a href="/admin/listDurations"><spring:message code="admin.link.duration"/></a></h3>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

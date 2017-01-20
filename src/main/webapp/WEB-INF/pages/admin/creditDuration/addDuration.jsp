@@ -41,15 +41,15 @@
 <div class="container">
 
 
-    <form:form method="POST" modelAttribute="rate" class="form-signin">
+    <form:form method="POST" modelAttribute="duration" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="addRate.head"/>
+            <spring:message code="addDuration.head"/>
         </h2>
-        <div class="form-group ${errorRate != null ? 'has-error' : ''}">
-            <spring:message code="addRole.placeholder.rate" var="NameRate"/>
-            <input name="rateInput" type="text" class="form-control" autofocus="true"
-                   placeholder='${NameRate}'/>
-            <span>${errorRate}</span>
+        <div class="form-group ${errorDuration != null ? 'has-error' : ''}">
+            <spring:message code="addDuration.placeholder.duration" var="Nameduration"/>
+            <input name="durationInput" type="text" class="form-control" autofocus="true"
+                   placeholder='${Nameduration}'/>
+            <span>${errorDuration}</span>
         </div>
         <button type="submit">
             <h4 class="text-center">
@@ -60,7 +60,7 @@
     </form:form>
     <div class="block-button">
         <div class="block1-listClient">
-            <button id="cancelButton"  onclick="location.href = '${contextPath}/admin/listRates'">
+            <button id="cancelButton"  onclick="location.href = '${contextPath}/admin/listDurations'">
                 <h4 class="text-center">
                     <spring:message code="button.backEn"/>
                 </h4>

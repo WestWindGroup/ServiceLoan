@@ -62,6 +62,12 @@ public class AdminController {
     private CreditStatusValidator statusValidator;
 
     @Autowired
+    private CreditDurationService durationService;
+
+    @Autowired
+    private CreditDurationValidator durationValidator;
+
+    @Autowired
     private MessageSource messageSource;
 
 
@@ -330,15 +336,16 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/addRate", method = RequestMethod.POST)
-    public ModelAndView addRatePost(@ModelAttribute(name = "rate") RateInterest rate, HttpServletRequest request,
-                                    CookieLocaleResolver localeResolver) {
+    public ModelAndView addRatePost(HttpServletRequest request, CookieLocaleResolver localeResolver) {
         ModelAndView modelAndView = new ModelAndView();
 
-        String newRate = request.getParameter("rate");
-        if (!checkCorrectRate(newRate, rate, modelAndView, request, localeResolver)) {
+        String newRate = request.getParameter("rateInput");
+        RateInterest rateInterest = new RateInterest();
+        if (!rateValidator.checkCorrectRate(newRate, rateInterest, modelAndView, request, localeResolver)) {
             return modelAndView;
         }
 
+        interestService.save(rateInterest);
         modelAndView.setViewName("admin/rateInterest/listRates");
         modelAndView.addObject("listRates", this.interestService.getAll());
         modelAndView.addObject("rate", new RateInterest());
@@ -365,10 +372,10 @@ public class AdminController {
 
         RateInterest rateFromDataBase = interestService.getById(id);
 
-        String newRate = request.getParameter("rate");
+        String newRate = request.getParameter("rateInput");
 
         if (!newRate.equals(String.valueOf(rateFromDataBase.getRate()))) {
-            if (!checkCorrectRate(newRate, rate, modelAndView, request, localeResolver)) {
+            if (!rateValidator.checkCorrectRate(newRate, rate, modelAndView, request, localeResolver)) {
                 return modelAndView;
             }
         }
@@ -423,40 +430,114 @@ public class AdminController {
     }
 
 
-    private boolean checkCorrectRate(String newRate, RateInterest rate, ModelAndView modelAndView,
-                                      HttpServletRequest request, CookieLocaleResolver localeResolver) {
+    @RequestMapping(value = "/admin/listDurations", method = RequestMethod.GET)
+    public String listDurations(Model model) {
+        model.addAttribute("duration", new CreditDuration());
+        model.addAttribute("listDurations", this.durationService.getAll());
 
-        String min_rate = String.valueOf(rateValidator.getEnv().getProperty("key.min.rate"));
-        String max_rate = String.valueOf(rateValidator.getEnv().getProperty("key.max.rate"));
-        String msg = messageSource.getMessage(
-                "key.credit", new String[]{min_rate, max_rate}, localeResolver.resolveLocale(request));
-        if (!newRate.equals("")) {
-            if (rateValidator.validate(newRate)) {
-                rate.setRate(Double.parseDouble(newRate));
-            } else {
-                modelAndView.addObject("errorRate",
-                        messageSource.getMessage("incorrectValue", null, localeResolver.resolveLocale(request)));
-                modelAndView.setViewName("admin/rateInterest/addRate");
-                modelAndView.addObject("rate", rate);
-                return false;
-            }
-        } else {
-            modelAndView.addObject("errorRate",msg);
-            modelAndView.setViewName("admin/rateInterest/addRate");
-            modelAndView.addObject("rate", rate);
-            return false;
-        }
-
-        if (rateValidator.validate(rate.getRate())) {
-            interestService.save(rate);
-        } else {
-            modelAndView.addObject("errorRate",msg);
-            modelAndView.setViewName("admin/rateInterest/addRate");
-            modelAndView.addObject("rate", rate);
-            return false;
-        }
-        return true;
+        return "admin/creditDuration/listDurations";
     }
+
+    @RequestMapping(value = "/admin/addDuration", method = RequestMethod.GET)
+    public String addDurationGet() {
+
+        return "admin/creditDuration/addDuration";
+    }
+
+    @RequestMapping(value = "/admin/addDuration", method = RequestMethod.POST)
+    public ModelAndView addDurationPost(HttpServletRequest request, CookieLocaleResolver localeResolver) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        CreditDuration creditDuration = new CreditDuration();
+        String newDuration = request.getParameter("durationInput");
+        if (!durationValidator.checkCorrectDuration(newDuration, creditDuration, modelAndView, request, localeResolver)) {
+            return modelAndView;
+        }
+
+        durationService.save(creditDuration);
+        modelAndView.setViewName("admin/creditDuration/listDurations");
+        modelAndView.addObject("listDurations", this.durationService.getAll());
+        modelAndView.addObject("duration", new CreditDuration());
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/editDuration/{id}", method = RequestMethod.GET)
+    public ModelAndView editDurationGet(@PathVariable long id) {
+        CreditDuration duration = durationService.getById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/creditDuration/editDuration");
+        modelAndView.addObject("duration", duration);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/editDuration/{id}", method = RequestMethod.POST)
+    public ModelAndView editDurationPost(@ModelAttribute("duration") CreditDuration duration, @PathVariable long id,
+                                     HttpServletRequest request, CookieLocaleResolver localeResolver) {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        CreditDuration durationFromDataBase = durationService.getById(id);
+
+        String newDuration = request.getParameter("durationInput");
+
+        if (!newDuration.equals(String.valueOf(durationFromDataBase.getDuration()))) {
+            if (!durationValidator.checkCorrectDuration(newDuration, duration, modelAndView, request, localeResolver)) {
+                return modelAndView;
+            }
+        }
+
+        durationService.save(duration);
+        modelAndView.setViewName("admin/creditDuration/listDurations");
+        modelAndView.addObject("listDurations", this.durationService.getAll());
+        modelAndView.addObject("duration", new CreditDuration());
+
+        return modelAndView;
+
+    }
+
+    @RequestMapping(value = "/admin/deleteDuration/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteDurationGet(@PathVariable long id) {
+
+        CreditDuration duration = durationService.getById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/creditDuration/deleteDuration");
+        modelAndView.addObject("duration", duration);
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/admin/deleteDuration/{id}", method = RequestMethod.POST)
+    public ModelAndView deleteDurationPost(@ModelAttribute(name = "duration") CreditDuration duration, BindingResult bindingResult,
+                                       @PathVariable long id, HttpServletRequest request, CookieLocaleResolver localeResolver) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        CreditDuration durationFromBase = durationService.getById(id);
+
+        if ((durationFromBase.getCredits() != null) && (durationFromBase.getCredits().size() != 0)) {
+            modelAndView.addObject("errorDelete",
+                    messageSource.getMessage("key.delete.impossible", null, localeResolver.resolveLocale(request)));
+            bindingResult.addError(null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("admin/creditDuration/deleteDuration");
+            modelAndView.addObject("duration", duration);
+            return modelAndView;
+        }
+
+        durationService.remove(duration);
+
+        modelAndView.setViewName("admin/creditDuration/listDurations");
+        modelAndView.addObject("listDurations", this.durationService.getAll());
+        modelAndView.addObject("duration", new CreditDuration());
+
+        return modelAndView;
+    }
+
 
 
     @RequestMapping(value = "/admin/listTypes", method = RequestMethod.GET)

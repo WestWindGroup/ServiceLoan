@@ -71,6 +71,14 @@
                     </c:forEach>
                 </select>
             </div>
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <h4><spring:message code="addCredit.duration"/></h4>
+                <select name="duration" class="form-control" id="duration" >
+                    <c:forEach items="${listDuration}" var="duration">
+                        <option value="${duration.duration}">${duration.duration}</option>
+                    </c:forEach>
+                </select>
+            </div>
             
             <button type="submit">
                 <h4 class="text-center">
