@@ -1,20 +1,31 @@
 package com.serviceloan.service.impl;
 
 import com.serviceloan.dao.CreditDAO;
-import com.serviceloan.dao.CreditStatusDAO;
+import com.serviceloan.logic.CreditLogic;
+import com.serviceloan.logic.CreditLogicAnnuityImpl;
+import com.serviceloan.logic.CreditLogicBalanceDecreaseImpl;
 import com.serviceloan.model.Credit;
+import com.serviceloan.model.Payment;
 import com.serviceloan.service.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class CreditServiceImpl implements CreditService{
 
     @Autowired
     private CreditDAO creditDAO;
+
+    @Autowired
+    private CreditLogicAnnuityImpl creditLogicAnnuity;
+
+    @Autowired
+    private CreditLogicBalanceDecreaseImpl creditLogicBalanceDecrease;
 
     @Override
     @Transactional
@@ -36,13 +47,6 @@ public class CreditServiceImpl implements CreditService{
 
     @Override
     @Transactional
-    public Collection<Credit> getAllCreditsClient(long id){
-        return creditDAO.getAllCreditsClient(id);
-    }
-
-
-    @Override
-    @Transactional
     public void remove(Credit credit) {
         creditDAO.remove(credit);
     }
@@ -51,6 +55,33 @@ public class CreditServiceImpl implements CreditService{
     @Transactional
     public void remove(long id) {
         creditDAO.remove(id);
+    }
+
+    @Override
+    public BigDecimal minPayment(Credit credit) {
+        if (credit.getCreditType().getType().equals("Differentiated")){
+            return creditLogicBalanceDecrease.minPayment(credit);
+        }else{
+            return creditLogicAnnuity.minPayment(credit);
+        }
+    }
+
+    @Override
+    public List<Payment> listPayments(Credit credit) {
+        if (credit.getCreditType().getType().equals("Differentiated")){
+            return creditLogicBalanceDecrease.listPayments(credit);
+        }else{
+            return creditLogicAnnuity.listPayments(credit);
+        }
+    }
+
+    @Override
+    public BigDecimal rateInPayment(Credit credit) {
+        if (credit.getCreditType().getType().equals("Differentiated")){
+            return creditLogicBalanceDecrease.rateInPayment(credit);
+        }else{
+            return creditLogicAnnuity.rateInPayment(credit);
+        }
     }
 
 }

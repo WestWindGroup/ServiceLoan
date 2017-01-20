@@ -30,6 +30,9 @@ public class Credit extends BaseEntity{
     @Column(name = "shut_date")
     private Date shutDate;
 
+    @OneToMany(mappedBy = "creditType")
+    private Set<Payment> payments;
+
     @ManyToOne
     @JoinTable(name = "credit_rate", joinColumns = {@JoinColumn(name = "credit_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "rate_id", referencedColumnName = "id")})

@@ -24,7 +24,7 @@ public class JpaDurationDAO implements DurationDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final static Logger logger = Logger.getLogger(JpaRateDAOImpl.class);
+    private final static Logger logger = Logger.getLogger(JpaDurationDAO.class);
 
     @Override
     public CreditDuration getById(Long id) {
@@ -46,11 +46,11 @@ public class JpaDurationDAO implements DurationDAO {
     @Override
     public Collection<CreditDuration> getAll() {
         Collection<CreditDuration> result;
-        Query query = this.entityManager.createQuery("SELECT rateInterest FROM CreditDuration rateInterest");
+        Query query = this.entityManager.createQuery("SELECT creditDuration FROM CreditDuration creditDuration");
         result = query.getResultList();
 
-        for (CreditDuration rateInterest : result) {
-            logger.info("CreditDuration list: " + rateInterest);
+        for (CreditDuration creditDuration : result) {
+            logger.info("CreditDuration list: " + creditDuration);
         }
 
         return result;

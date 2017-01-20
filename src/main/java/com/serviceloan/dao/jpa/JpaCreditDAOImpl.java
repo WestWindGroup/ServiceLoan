@@ -54,22 +54,6 @@ public class JpaCreditDAOImpl implements CreditDAO {
 
 
     @Override
-    public Collection<Credit> getAllCreditsClient(long id) {
-        Collection<Credit> result;
-        Query query = this.entityManager.createQuery("SELECT credit FROM Credit credit LEFT JOIN FETCH credit.client WHERE credit.client.id=:id");
-        query.setParameter("id", id);
-        result = query.getResultList();
-
-        for (Credit credit : result) {
-            logger.info("Credit list: " + credit);
-        }
-
-        return result;
-    }
-
-
-
-    @Override
     public void save(Credit credit) {
         if (credit.getId() == null) {
             this.entityManager.persist(credit);

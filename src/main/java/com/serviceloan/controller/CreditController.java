@@ -54,7 +54,23 @@ public class CreditController {
     @Autowired
     private MessageSource messageSource;
 
+    @RequestMapping(value = "/user/pageCredit/{client_id}/{credit_id}",method = RequestMethod.GET)
+    public String pageCreditGet(Model model,@PathVariable("client_id") long client_id,
+                                @PathVariable("credit_id") long credit_id){
+        model.addAttribute("client",clientService.getById(client_id));
+        model.addAttribute("credit",creditService.getById(credit_id));
+        return "user/credit/pageCredit";
+    }
 
+
+    @RequestMapping(value = "/user/listPayments/{client_id}/{credit_id}",method = RequestMethod.GET)
+    public String pageListPaymentsGet(Model model,@PathVariable("client_id") long client_id,
+                                @PathVariable("credit_id") long credit_id){
+
+        model.addAttribute("client",clientService.getById(client_id));
+        model.addAttribute("credit",creditService.getById(credit_id));
+        return "user/credit/pageCredit";
+    }
     @RequestMapping(value = "/user/addCredit/{id}", method = RequestMethod.GET)
     public String addCreditGet(Model model,@PathVariable long id) {
         model.addAttribute("client", clientService.getById(id));

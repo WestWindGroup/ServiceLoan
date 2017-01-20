@@ -93,11 +93,10 @@ CREATE TABLE IF NOT EXISTS duration (
   duration INT    NOT NULL
 );
 
-
 -- credit_duration
 CREATE TABLE IF NOT EXISTS credit_duration (
-  credit_id SERIAL NOT NULL,
-  duration_id   SERIAL NOT NULL,
+  credit_id   SERIAL NOT NULL,
+  duration_id SERIAL NOT NULL,
 
   FOREIGN KEY (credit_id) REFERENCES credits (id),
   FOREIGN KEY (duration_id) REFERENCES duration (id),
@@ -120,6 +119,26 @@ CREATE TABLE IF NOT EXISTS credit_type (
   FOREIGN KEY (type_id) REFERENCES types (id),
 
   UNIQUE (credit_id, type_id)
+);
+
+-- payment
+CREATE TABLE IF NOT EXISTS payment (
+  id             SERIAL         NOT NULL PRIMARY KEY,
+  amount_payment NUMERIC(19, 2) NOT NULL,
+  body_credit    NUMERIC(19, 2) NOT NULL,
+  rate_payment   NUMERIC(19, 2) NOT NULL,
+  date_payment   TIMESTAMP      NOT NULL
+);
+
+-- credit_payment
+CREATE TABLE IF NOT EXISTS credit_payment (
+  credit_id  SERIAL NOT NULL,
+  payment_id SERIAL NOT NULL,
+
+  FOREIGN KEY (credit_id) REFERENCES credits (id),
+  FOREIGN KEY (payment_id) REFERENCES payment (id),
+
+  UNIQUE (credit_id, payment_id)
 );
 
 

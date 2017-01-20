@@ -1,8 +1,11 @@
 package com.serviceloan.service;
 
 import com.serviceloan.model.Credit;
+import com.serviceloan.model.Payment;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * service class for {@link Credit}
@@ -23,6 +26,9 @@ public interface CreditService {
 
     void remove(long id);
 
-    Collection<Credit> getAllCreditsClient(long id);
+    BigDecimal minPayment(Credit credit);
 
+    List<Payment> listPayments(Credit credit);
+
+    BigDecimal rateInPayment(Credit credit);
 }

@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Page credit</title>
+    <title>List payments</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet">
@@ -48,8 +48,8 @@
             </tr>
         </table>
     </c:if>
-    <div class="listCreditsClient_head">
-        <h3><spring:message code="pageClient.credit"/></h3>
+    <div class="listPayments_head">
+        <h3><spring:message code="listPayments_head"/>${credit}</h3>
     </div>
     <table class="tg-credits">
         <tr>

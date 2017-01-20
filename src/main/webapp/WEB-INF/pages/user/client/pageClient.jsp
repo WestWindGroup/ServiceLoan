@@ -90,7 +90,7 @@
                     <td>${credit.duration.duration}</td>
                     <td width="80">
                         <h5 class="text-center">
-                            <a href="/credit/pageCredit/${credit.id}">
+                            <a href="/user/pageCredit/${client.id}/${credit.id}">
                                 <spring:message code="listCredit.button.showCredit"/>
                             </a>
                         </h5>
