@@ -32,7 +32,7 @@
 </div>
 
 <div class="container">
-    <div class="head-listClient">
+    <div class="head-list">
         <h1><spring:message code="editClient.head"/></h1>
     </div>
     <div class="form">

@@ -22,6 +22,37 @@ public abstract class NumberValidator {
     @Autowired
     protected MessageSource messageSource;
 
+    public String replacedOnComma(String str){
+        char[] chArray = str.toCharArray();
+        StringBuilder strBuild = new StringBuilder();
+        for (int i = 0; i < chArray.length; i++) {
+            if ((chArray[i] == ',') || (chArray[i] == '.')){
+                chArray[i] = '.';
+            }
+            strBuild.append(chArray[i]);
+        }
+        return strBuild.toString();
+    }
+
+    public boolean validate(String str){
+        if(!checkDoubleWithRegExp(str)){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean checkCorrect(String num) {
+        if (!num.equals("")) {
+            if (validate(num)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
     protected boolean checkIntWithRegExp(String str){
         Pattern p = Pattern.compile("^([0-9]+)");

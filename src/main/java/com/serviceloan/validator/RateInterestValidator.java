@@ -23,8 +23,11 @@ import java.util.regex.Pattern;
 public class RateInterestValidator extends NumberValidator {
 
 
-    public boolean validate(String str){
-        if(!checkDoubleWithRegExp(str)){
+
+
+    public boolean validate(double rate,String min,String max) {
+        if((rate < Double.parseDouble(min))||
+                (rate > Double.parseDouble(max))) {
             return false;
         }else{
             return true;
@@ -32,46 +35,11 @@ public class RateInterestValidator extends NumberValidator {
     }
 
 
-    private boolean validate(double rate) {
-        if((rate < Double.parseDouble(env.getProperty("key.min.rate")))||
-                (rate > Double.parseDouble(env.getProperty("key.max.rate")))) {
-            return false;
-        }else{
+    public boolean checkCorrectAmount(double rate,String min,String max){
+
+        if (validate(rate,min,max)){
             return true;
-        }
-    }
-
-
-    public boolean checkCorrectRate(String newRate, RateInterest rate, ModelAndView modelAndView,
-                                     HttpServletRequest request, CookieLocaleResolver localeResolver) {
-
-        String min_rate = String.valueOf(env.getProperty("key.min.rate"));
-        String max_rate = String.valueOf(env.getProperty("key.max.rate"));
-        String msg = messageSource.getMessage(
-                "key.credit", new String[]{min_rate, max_rate}, localeResolver.resolveLocale(request));
-        if (!newRate.equals("")) {
-            if (validate(newRate)) {
-                rate.setRate(Double.parseDouble(newRate));
-            } else {
-                modelAndView.addObject("errorRate",
-                        messageSource.getMessage("incorrectValue", null, localeResolver.resolveLocale(request)));
-                modelAndView.setViewName("admin/rateInterest/addRate");
-                modelAndView.addObject("rate", rate);
-                return false;
-            }
-        } else {
-            modelAndView.addObject("errorRate",msg);
-            modelAndView.setViewName("admin/rateInterest/addRate");
-            modelAndView.addObject("rate", rate);
-            return false;
-        }
-
-        if (validate(rate.getRate())) {
-            return true;
-        } else {
-            modelAndView.addObject("errorRate",msg);
-            modelAndView.setViewName("admin/rateInterest/addRate");
-            modelAndView.addObject("rate", rate);
+        } else{
             return false;
         }
     }

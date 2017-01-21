@@ -337,15 +337,32 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/addRate", method = RequestMethod.POST)
     public ModelAndView addRatePost(HttpServletRequest request, CookieLocaleResolver localeResolver) {
+
         ModelAndView modelAndView = new ModelAndView();
+
+        String min_rate = String.valueOf(rateValidator.getEnv().getProperty("key.min.rate"));
+        String max_rate = String.valueOf(rateValidator.getEnv().getProperty("key.max.rate"));
+        String msg = messageSource.getMessage(
+                "key.credit", new String[]{min_rate, max_rate}, localeResolver.resolveLocale(request));
 
         String newRate = request.getParameter("rateInput");
         RateInterest rateInterest = new RateInterest();
-        if (!rateValidator.checkCorrectRate(newRate, rateInterest, modelAndView, request, localeResolver)) {
+
+        modelAndView.addObject("errorRate",msg);
+        modelAndView.setViewName("admin/rateInterest/addRate");
+
+        if (!rateValidator.checkCorrect(newRate)) {
+            return modelAndView;
+        }
+        newRate = rateValidator.replacedOnComma(newRate);
+        rateInterest.setRate(Double.parseDouble(newRate));
+
+        if (rateValidator.checkCorrectAmount(rateInterest.getRate(),min_rate,max_rate)) {
             return modelAndView;
         }
 
         interestService.save(rateInterest);
+        modelAndView.clear();
         modelAndView.setViewName("admin/rateInterest/listRates");
         modelAndView.addObject("listRates", this.interestService.getAll());
         modelAndView.addObject("rate", new RateInterest());
@@ -375,11 +392,28 @@ public class AdminController {
         String newRate = request.getParameter("rateInput");
 
         if (!newRate.equals(String.valueOf(rateFromDataBase.getRate()))) {
-            if (!rateValidator.checkCorrectRate(newRate, rate, modelAndView, request, localeResolver)) {
+            String min_rate = String.valueOf(rateValidator.getEnv().getProperty("key.min.rate"));
+            String max_rate = String.valueOf(rateValidator.getEnv().getProperty("key.max.rate"));
+            String msg = messageSource.getMessage(
+                    "key.credit", new String[]{min_rate, max_rate}, localeResolver.resolveLocale(request));
+
+            RateInterest rateInterest = new RateInterest();
+
+            modelAndView.addObject("errorRate",msg);
+            modelAndView.setViewName("admin/rateInterest/addRate");
+
+            if (!rateValidator.checkCorrect(newRate)) {
+                return modelAndView;
+            }
+            newRate = rateValidator.replacedOnComma(newRate);
+            rateInterest.setRate(Double.parseDouble(newRate));
+
+            if (rateValidator.checkCorrectAmount(rateInterest.getRate(),min_rate,max_rate)) {
                 return modelAndView;
             }
         }
         interestService.save(rate);
+        modelAndView.clear();
         modelAndView.setViewName("admin/rateInterest/listRates");
         modelAndView.addObject("listRates", this.interestService.getAll());
         modelAndView.addObject("rate", new RateInterest());

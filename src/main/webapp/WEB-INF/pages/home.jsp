@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
@@ -24,7 +24,8 @@
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
 <div class="head">
-
+    <security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+    <security:authorize access="hasRole('ROLE_USER')" var="isUser"/>
     <c:if test="${pageContext.request.userPrincipal.name != null}">
         <form id="logoutForm" method="POST" action="${contextPath}/logout">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -47,7 +48,13 @@
     </c:if>
 </div>
 <div class="page">
-    <h3><a href="/user/listClients"><spring:message code="home.link.client"/></a></h3>
+    <c:if test="${isUser}">
+        <h3><a href="/user/listClients"><spring:message code="home.link.client"/></a></h3>
+    </c:if>
+
+    <c:if test="${isAdmin}">
+        <h3><a href="/admin" ><spring:message code="home.link.adminPage"/></a></h3>
+    </c:if>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

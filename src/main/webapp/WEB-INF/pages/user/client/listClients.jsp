@@ -31,13 +31,12 @@
 <br/>
 
 <div class="container">
-    <div class="head-listClient">
+    <div class="head-list">
         <h1><spring:message code="listClient.head"/></h1>
     </div>
 
-
-    <c:if test="${!empty listClients}">
-        <table class="tg">
+    <div class="div-clients">
+        <table>
             <tr>
                 <th width="10%">ID</th>
                 <th width="24%"><spring:message code="listClient.table.client.name"/></th>
@@ -45,42 +44,38 @@
                 <th width="22%"><spring:message code="listClient.table.client.birthDate"/></th>
                 <th width="22%"><spring:message code="listClient.table.client.registrationDate"/></th>
             </tr>
-            <c:forEach items="${listClients}" var="client">
-                <tr>
-                    <td>${client.id}</td>
-                    <td>${client.firstName}</td>
-                    <td>${client.lastName}</td>
-                    <td>${client.birthDate}</td>
-                    <td>${client.registrationDate}</td>
-                    <td width="80">
-                        <h5 class="text-center">
-                            <a href="/user/pageClient/${client.id}">
-                                <spring:message code="listClient.button.showClient"/>
-                            </a>
-                        </h5>
-                    </td>
+            <c:if test="${!empty listClients}">
+                <c:forEach items="${listClients}" var="client">
+                    <tr>
+                        <td>${client.id}</td>
+                        <td>${client.firstName}</td>
+                        <td>${client.lastName}</td>
+                        <td>${client.birthDate}</td>
+                        <td>${client.registrationDate}</td>
+                        <td width="80">
+                            <h5 class="text-center">
+                                <a href="/user/pageClient/${client.id}">
+                                    <spring:message code="listClient.button.showClient"/>
+                                </a>
+                            </h5>
+                        </td>
 
-                </tr>
-            </c:forEach>
+                    </tr>
+                </c:forEach>
+            </c:if>
         </table>
-    </c:if>
-
-    <div class="block-button">
-        <div class="block2-listClient">
-            <button onclick="location.href = '${contextPath}/home'">
-                <h4 class="text-center">
-                    <spring:message code="buttons.back"/>
-                </h4>
-            </button>
-        </div>
-        <div class="block1-listClient">
-            <button onclick="location.href = '${contextPath}/user/addClient'">
-                <h4 class="text-center">
-                    <spring:message code="listClient.button.addClient"/>
-                </h4>
-            </button>
-        </div>
     </div>
+    <button class="funcButton" onclick="location.href = '${contextPath}/user/addClient'">
+        <h4 class="text-center">
+            <spring:message code="listClient.button.addClient"/>
+        </h4>
+    </button>
+    <button class="backButton" onclick="location.href = '${contextPath}/home'">
+        <h4 class="text-center">
+            <spring:message code="buttons.back"/>
+        </h4>
+    </button>
+
 </div>
 
 

@@ -1,7 +1,6 @@
 package com.serviceloan.service.impl;
 
 import com.serviceloan.dao.CreditDAO;
-import com.serviceloan.logic.CreditLogic;
 import com.serviceloan.logic.CreditLogicAnnuityImpl;
 import com.serviceloan.logic.CreditLogicBalanceDecreaseImpl;
 import com.serviceloan.model.Credit;
@@ -81,6 +80,15 @@ public class CreditServiceImpl implements CreditService{
             return creditLogicBalanceDecrease.rateInPayment(credit);
         }else{
             return creditLogicAnnuity.rateInPayment(credit);
+        }
+    }
+
+    @Override
+    public BigDecimal bodyInPayment(Credit credit,BigDecimal rate, BigDecimal payment) {
+        if (credit.getCreditType().getType().equals("Differentiated")){
+            return creditLogicBalanceDecrease.bodyInPayment(rate, payment);
+        }else{
+            return creditLogicAnnuity.bodyInPayment(rate, payment);
         }
     }
 

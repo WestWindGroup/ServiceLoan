@@ -31,61 +31,80 @@
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
 <div class="container">
-    <div class="head-listClient">
-        <h1><spring:message code="pageClient.head"/></h1>
+    <div class="head-list">
+        <h2><spring:message code="pageCredit.head"/>:  ${client.lastName} ${client.firstName}</h2>
     </div>
-    <c:if test="${!empty client}">
-        <table class="tg">
-            <tr>
-                <th width="10%">ID</th>
-                <th width="30%"><spring:message code="listClient.table.client.name"/></th>
-                <th width="30%"><spring:message code="listClient.table.client.lastname"/></th>
-            </tr>
-            <tr>
-                <td>${client.id}</td>
-                <td>${client.firstName}</td>
-                <td>${client.lastName}</td>
-            </tr>
-        </table>
-    </c:if>
+
     <div class="listCreditsClient_head">
         <h3><spring:message code="pageClient.credit"/></h3>
     </div>
-    <table class="tg-credits">
-        <tr>
-            <th width="6%">ID</th>
-            <th width="12%"><spring:message code="listCredit.table.credit.openDate"/></th>
-            <th width="12%"><spring:message code="listCredit.table.credit.shutDate"/></th>
-            <th width="12%"><spring:message code="listCredit.table.credit.amount"/></th>
-            <th width="12%"><spring:message code="listCredit.table.credit.debt"/></th>
-            <th width="10%"><spring:message code="listCredit.table.credit.percent"/></th>
-            <th width="12%"><spring:message code="listCredit.table.credit.creditType"/></th>
-            <th width="12%"><spring:message code="listCredit.table.credit.creditStatus"/></th>
-            <th width="12%"><spring:message code="listCredit.table.credit.creditDuration"/></th>
-
-        </tr>
-        <c:if test="${!empty credit}">
+    <div class="div-credit">
+        <table>
             <tr>
-                <td>${credit.id}</td>
-                <td>${credit.openDate}</td>
-                <td>${credit.shutDate}</td>
-                <td>${credit.amount}</td>
-                <td>${credit.debt}</td>
-                <td>${credit.percent.rate}</td>
-                <td>${credit.creditType.type}</td>
-                <td>${credit.creditStatus.status}</td>
-                <td>${credit.duration.duration}</td>
+                <th width="6%">ID</th>
+                <th width="12%"><spring:message code="listCredit.table.credit.openDate"/></th>
+                <th width="12%"><spring:message code="listCredit.table.credit.shutDate"/></th>
+                <th width="12%"><spring:message code="listCredit.table.credit.amount"/></th>
+                <th width="12%"><spring:message code="listCredit.table.credit.debt"/></th>
+                <th width="10%"><spring:message code="listCredit.table.credit.percent"/></th>
+                <th width="12%"><spring:message code="listCredit.table.credit.creditType"/></th>
+                <th width="12%"><spring:message code="listCredit.table.credit.creditStatus"/></th>
+                <th width="12%"><spring:message code="listCredit.table.credit.creditDuration"/></th>
 
             </tr>
-        </c:if>
+            <c:if test="${!empty credit}">
+                <div>
+                    <tr>
+                        <td>${credit.id}</td>
+                        <td>${credit.openDate}</td>
+                        <td>${credit.shutDate}</td>
+                        <td>${credit.amount}</td>
+                        <td>${credit.debt}</td>
+                        <td>${credit.percent.rate}</td>
+                        <td>${credit.creditType.type}</td>
+                        <td>${credit.creditStatus.status}</td>
+                        <td>${credit.duration.duration}</td>
 
-    </table>
-    <button class="listPaymentsButton" onclick="location.href = '${contextPath}/user/listPayments/${credit.id}'">
+                    </tr>
+                </div>
+            </c:if>
+
+        </table>
+    </div>
+
+    <div class="listPaymentsCredit_head">
+        <h3><spring:message code="listPaymentsCredit_head"/></h3>
+    </div>
+    <div class="div-payments">
+        <table>
+            <tr>
+                <th width="8%">ID</th>
+                <th width="23%"><spring:message code="listPayments.table.amount"/></th>
+                <th width="23%"><spring:message code="listPayments.table.body"/></th>
+                <th width="23%"><spring:message code="listPayments.table.rate"/></th>
+                <th width="23%"><spring:message code="listPayments.table.date"/></th>
+            </tr>
+            <c:if test="${!empty listPayments}">
+                <c:forEach items="${listPayments}" var="payment">
+                    <tr>
+                        <td>${payment.id}</td>
+                        <td>${payment.amountPayment}</td>
+                        <td>${payment.bodyCredit}</td>
+                        <td>${payment.ratePayment}</td>
+                        <td>${payment.paymentDate}</td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+
+        </table>
+    </div>
+
+    <button class="listPaymentsButton" onclick="location.href = '${contextPath}/user/listPayments/${client.id}/${credit.id}'">
         <h4 class="text-center">
             <spring:message code="buttons.listPayments"/>
         </h4>
     </button>
-    <button class="makePaymentButton" onclick="location.href = '${contextPath}/user/makePayment/${credit.id}'">
+    <button class="makePaymentButton" onclick="location.href = '${contextPath}/user/makePayment/${client.id}/${credit.id}'">
         <h4 class="text-center">
             <spring:message code="buttons.makePayment"/>
         </h4>

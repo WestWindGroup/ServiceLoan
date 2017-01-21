@@ -15,6 +15,8 @@ public interface CreditLogic {
 
     BigDecimal rateInPayment(Credit credit);
 
+    BigDecimal bodyInPayment(BigDecimal rate, BigDecimal payment);
+
     default int daysInMonth(GregorianCalendar calendar) {
 
         int [] daysInMonths = {31,28,31,30,31,30,31,31,30,31,30,31};

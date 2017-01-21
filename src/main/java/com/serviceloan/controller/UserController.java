@@ -45,7 +45,7 @@ public class UserController {
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String welcome() {
-        return "user/operator/home";
+        return "home";
     }
 
 

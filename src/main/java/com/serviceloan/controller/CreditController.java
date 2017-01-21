@@ -4,6 +4,7 @@ package com.serviceloan.controller;
 import com.serviceloan.model.*;
 import com.serviceloan.service.*;
 import com.serviceloan.validator.CreditValidator;
+import com.serviceloan.validator.PaymentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,12 @@ public class CreditController {
     private CreditValidator creditValidator;
 
     @Autowired
+    private PaymentValidator paymentValidator;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
     private CreditService creditService;
 
     @Autowired
@@ -57,8 +64,10 @@ public class CreditController {
     @RequestMapping(value = "/user/pageCredit/{client_id}/{credit_id}",method = RequestMethod.GET)
     public String pageCreditGet(Model model,@PathVariable("client_id") long client_id,
                                 @PathVariable("credit_id") long credit_id){
+        Credit credit = creditService.getById(credit_id);
         model.addAttribute("client",clientService.getById(client_id));
-        model.addAttribute("credit",creditService.getById(credit_id));
+        model.addAttribute("credit",credit);
+        model.addAttribute("listPayments",credit.getPayments());
         return "user/credit/pageCredit";
     }
 
@@ -67,10 +76,83 @@ public class CreditController {
     public String pageListPaymentsGet(Model model,@PathVariable("client_id") long client_id,
                                 @PathVariable("credit_id") long credit_id){
 
+        Credit credit = creditService.getById(credit_id);
         model.addAttribute("client",clientService.getById(client_id));
-        model.addAttribute("credit",creditService.getById(credit_id));
-        return "user/credit/pageCredit";
+        model.addAttribute("credit",credit);
+        model.addAttribute("listPayments",credit.getPayments());
+
+        return "user/credit/listPayments";
     }
+
+    @RequestMapping(value = "/user/makePayment/{client_id}/{credit_id}", method = RequestMethod.GET)
+    public String madePaymentGet(Model model,@PathVariable("client_id") long client_id,
+                                 @PathVariable("credit_id") long credit_id) {
+
+        Credit credit = creditService.getById(credit_id);
+        model.addAttribute("minPayment",creditService.minPayment(credit));
+        model.addAttribute("client",clientService.getById(client_id));
+        model.addAttribute("credit",credit);
+
+        return "user/credit/makePayment";
+    }
+
+    @RequestMapping(value = "/user/makePayment/{client_id}/{credit_id}", method = RequestMethod.POST)
+    public ModelAndView madePaymentPost(@PathVariable("client_id") long client_id,
+                                        @PathVariable("credit_id") long credit_id,
+                                        HttpServletRequest request,
+                                        CookieLocaleResolver localeResolver){
+        ModelAndView modelAndView = new ModelAndView();
+        Credit credit = creditService.getById(credit_id);
+        String paymentInput = request.getParameter("paymentInput");
+        BigDecimal minPay = creditService.minPayment(credit);
+        String msg =  messageSource.
+                getMessage("key.credit", new String[]{minPay.toString(), credit.getDebt().toString()},
+                        localeResolver.resolveLocale(request));
+
+        modelAndView.addObject("minPayment",creditService.minPayment(credit));
+        modelAndView.addObject("client",clientService.getById(client_id));
+        modelAndView.addObject("credit", credit);
+        modelAndView.addObject("errorPayment",msg);
+        modelAndView.setViewName("user/credit/makePayment");
+
+        if (!paymentValidator.checkCorrect(paymentInput)){
+            return modelAndView;
+        }
+        paymentInput = paymentValidator.replacedOnComma(paymentInput);
+
+        if (!paymentValidator.checkCorrectAmount(credit.getAmount(),minPay,credit.getDebt())){
+            return modelAndView;
+        }
+        Payment payment = new Payment();
+
+        BigDecimal amount = new BigDecimal(paymentInput);
+        payment.setAmountPayment(amount);
+
+        BigDecimal rate = creditService.rateInPayment(credit);
+        payment.setRatePayment(rate);
+
+        BigDecimal body = creditService.bodyInPayment(credit,rate,amount);
+        payment.setBodyCredit(body);
+        paymentService.save(payment);
+
+        credit.getPayments().add(payment);
+        credit.setDebt(creditService.bodyInPayment(credit,body,credit.getDebt()));
+
+        creditService.save(credit);
+
+        Client client = clientService.getById(client_id);
+
+        modelAndView.clear();
+        modelAndView.setViewName("user/credit/pageCredit");
+        modelAndView.addObject("client", client);
+        modelAndView.addObject("credit", credit);
+        modelAndView.addObject("listCredits", client.getCreditSet());
+
+
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = "/user/addCredit/{id}", method = RequestMethod.GET)
     public String addCreditGet(Model model,@PathVariable long id) {
         model.addAttribute("client", clientService.getById(id));

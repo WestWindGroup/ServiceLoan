@@ -1,29 +1,40 @@
+.background{
+    background: #c8c8c8;
+}
 .backButton{
     position: absolute;
     top: 85%;
-    left: 85%;
-    width: 5%;
+    left: 87%;
+    width: 8%;
     color: #21a051;
 }
 .funcButton{
     position: absolute;
     top: 55%;
-    left: 85%;
-    width: 5%;
+    left: 87%;
+    width: 8%;
     color: #21a051;
 }
 .listPaymentsButton{
     position: absolute;
     top: 50%;
-    left: 80%;
-    width: 10%;
+    left: 87%;
+    width: 8%;
     color: #21a051;
 }
+.PayButton{
+    position: absolute;
+    top: 32%;
+    left: 65%;
+    width: 6%;
+    color: #21a051;
+}
+
 .makePaymentButton{
     position: absolute;
     top: 60%;
-    left: 80%;
-    width: 10%;
+    left: 87%;
+    width: 8%;
     color: #21a051;
 }
 .form{
@@ -80,10 +91,10 @@
     text-align: center;
     color: #21a051;
 }
-.head-listClient{
+.head-list{
     position: absolute;
     top: 10%;
-    left: 20%;
+    left: 10%;
     color: #21a051;
 }
 .listPayments_head{
@@ -145,22 +156,67 @@
     border-spacing: 0;
     border-color: #ccc;
 }
-.listCreditsClient_head{
+.listCreditsClient_head2{
     position: absolute;
     top: 30%;
-    left: 20%;
+    left: 10%;
     color: #21a051;
 }
-.tg-credits{
+.listCreditsClient_head{
     position: absolute;
-    top: 35%;
-    left: 15%;
-    width: 60%;
+    top: 20%;
+    left: 10%;
+    color: #21a051;
+}
+.min_payment{
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    color: #21a051;
+}
+.madePayment-head{
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    color: #21a051;
+}
+.madePayment_input_payment{
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    color: #21a051;
+}
+
+.listPaymentsCredit_head{
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    color: #21a051;
+}
+.div-clients{
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 75%;
     border-collapse: collapse;
     border-spacing: 0;
     border-color: #ccc;
 }
-.tg-credits td {
+.div-clients th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.div-clients td{
     text-align: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -174,7 +230,25 @@
     background-color: #fff;
 }
 
-.tg-credits th {
+.tg-payments{
+    position: absolute;
+    top: 58%;
+    left: 15%;
+    width: 60%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+.div-credit{
+     position: absolute;
+     top: 26%;
+     left: 10%;
+     width: 75%;
+     border-collapse: collapse;
+     border-spacing: 0;
+     border-color: #ccc;
+ }
+.div-credit th{
     text-align: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -187,6 +261,176 @@
     border-color: #ccc;
     color: #333;
     background-color: #f0f0f0;
+}
+.div-credit td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.div-payments{
+    position: absolute;
+    top: 46%;
+    left: 10%;
+    width: 75%;
+    height: 45%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+    overflow: auto;
+}
+.div-payments th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.div-payments td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.div-listPayments{
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 75%;
+    height: 80%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+    overflow: auto;
+}
+.div-listPayments th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.div-listPayments td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.div-credits{
+    position: absolute;
+    top: 36%;
+    left: 10%;
+    width: 75%;
+    height: 55%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+    overflow: auto;
+}
+.div-credits th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.div-credits td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    overflow: hidden;
+    word-break: normal;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.div-client{
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 75%;
+    color: #21a051;
+}
+.div-client th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    overflow: hidden;
+    word-break: normal;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.div-client td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.div-credits div{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    overflow: hidden;
+    word-break: normal;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #fff;
+    height: 45%;
+    overflow: auto;
 }
 
 .tg-credits .tg-4eph {

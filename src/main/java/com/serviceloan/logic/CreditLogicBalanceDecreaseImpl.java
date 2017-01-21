@@ -48,11 +48,14 @@ public class CreditLogicBalanceDecreaseImpl implements CreditLogic {
         return percentCredit.add(bodyPayment).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 
-
     @Override
     public BigDecimal rateInPayment(Credit credit) {
-
         return ratePayment(credit.getPercent().getRate(),credit.getDebt());
+    }
+
+    @Override
+    public BigDecimal bodyInPayment(BigDecimal rate, BigDecimal payment) {
+        return payment.subtract(rate).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 
     private BigDecimal ratePayment(double interestRate,BigDecimal sumOfIndebtedness){

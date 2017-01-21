@@ -31,4 +31,6 @@ public interface CreditService {
     List<Payment> listPayments(Credit credit);
 
     BigDecimal rateInPayment(Credit credit);
+
+    BigDecimal bodyInPayment(Credit credit,BigDecimal rate, BigDecimal payment);
 }

@@ -30,7 +30,7 @@ public class Credit extends BaseEntity{
     @Column(name = "shut_date")
     private Date shutDate;
 
-    @OneToMany(mappedBy = "creditType")
+    @OneToMany(mappedBy = "credit")
     private Set<Payment> payments;
 
     @ManyToOne
@@ -61,6 +61,14 @@ public class Credit extends BaseEntity{
     @PrePersist
     public void getDate() {
         openDate = new Date();
+    }
+
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
     }
 
     public BigDecimal getAmount() {

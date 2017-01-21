@@ -35,7 +35,7 @@ public class CreditValidator extends NumberValidator{
         }
     }
 
-    private String replacedOnComma(String str){
+    public String replacedOnComma(String str){
         char[] chArray = str.toCharArray();
         StringBuilder strBuild = new StringBuilder();
         for (int i = 0; i < chArray.length; i++) {

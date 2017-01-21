@@ -71,7 +71,8 @@ public class CreditLogicAnnuityImpl implements CreditLogic {
         return rate.multiply(amountOfCredit).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 
-    private BigDecimal bodyInPayment(BigDecimal rate, BigDecimal payment) {
+    @Override
+    public BigDecimal bodyInPayment(BigDecimal rate, BigDecimal payment) {
         return payment.subtract(rate).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 

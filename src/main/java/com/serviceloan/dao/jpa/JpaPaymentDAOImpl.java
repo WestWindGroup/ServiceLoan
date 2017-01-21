@@ -30,7 +30,7 @@ public class JpaPaymentDAOImpl implements PaymentDAO {
     public Payment getById(Long id) {
         try {
             Query query = this.entityManager.createQuery("SELECT payment FROM  Payment payment " +
-                    "LEFT JOIN FETCH  payment.credits WHERE payment.id =:id");
+                    "LEFT JOIN FETCH  payment.credit WHERE payment.id =:id");
             query.setParameter("id", id);
 
             Payment payment = (Payment) query.getSingleResult();

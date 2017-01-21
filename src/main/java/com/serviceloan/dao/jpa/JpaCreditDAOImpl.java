@@ -30,7 +30,7 @@ public class JpaCreditDAOImpl implements CreditDAO {
         Query query = this.entityManager.createQuery("SELECT credit FROM  Credit credit " +
                 "LEFT JOIN FETCH  credit.percent LEFT JOIN FETCH  credit.creditType " +
                 "LEFT JOIN FETCH  credit.creditStatus LEFT JOIN FETCH  credit.duration " +
-                "LEFT JOIN FETCH  credit.client WHERE credit.id =:id");
+                "LEFT JOIN FETCH  credit.client LEFT JOIN FETCH  credit.payments WHERE credit.id =:id");
         query.setParameter("id", id);
 
         Credit credit = (Credit) query.getSingleResult();

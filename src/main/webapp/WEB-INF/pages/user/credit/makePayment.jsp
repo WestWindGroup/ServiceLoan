@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>List payments</title>
+    <title>Make payment</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet">
@@ -25,37 +25,40 @@
 
 </head>
 
-<body>
+<body class="background">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
 <div class="container">
-    <div class="head-list">
-        <h3><spring:message code="listPaymentsTimetable_head"/> ${credit.id}</h3>
+    <div class="madePayment-head">
+        <h2><spring:message code="madePayment.head"/>${credit.id}</h2>
     </div>
-    <div class="div-listPayments">
-        <table>
-            <tr>
-                <th width="23%"><spring:message code="listPayments.table.amount"/></th>
-                <th width="23%"><spring:message code="listPayments.table.body"/></th>
-                <th width="23%"><spring:message code="listPayments.table.rate"/></th>
-                <th width="23%"><spring:message code="listPayments.table.date"/></th>
-            </tr>
-            <c:if test="${!empty listPayments}">
-                <c:forEach items="${listPayments}" var="payment">
-                    <tr>
-                        <td>${payment.amountPayment}</td>
-                        <td>${payment.bodyCredit}</td>
-                        <td>${payment.ratePayment}</td>
-                        <td>${payment.paymentDate}</td>
-                    </tr>
-                </c:forEach>
-            </c:if>
 
-        </table>
+    <div class="min_payment">
+        <h3><spring:message code="madePayment.min.payment"/> ${minPayment}</h3>
     </div>
-    <button class="backButton" onclick="location.href = '${contextPath}/user/pageCredit/${client}/${credit.id}'">
+
+    <form:form method="POST" modelAttribute="payment" class="form-signin">
+        <div class="form">
+            <h2 class="form-signin-heading">
+                <spring:message code="madePayment.input.payment"/>
+            </h2>
+            <div class="form-group ${errorPayment != null ? 'has-error' : ''}">
+                <spring:message code="madePayment.payment" var="NamePayment"/>
+                <input name="paymentInput" type="text" class="form-control" autofocus="true"
+                       placeholder='${NamePayment}'/>
+                <span>${errorPayment}</span>
+            </div>
+        </div>
+        <button class="PayButton" type="submit">
+            <h4 class="text-center">
+                <spring:message code="buttons.makePaymentNow"/>
+            </h4>
+        </button>
+    </form:form>
+
+    <button class="backButton" onclick="location.href = '${contextPath}/user/pageCredit/${client.id}/${credit.id}'">
         <h4 class="text-center">
             <spring:message code="buttons.back"/>
         </h4>
