@@ -109,7 +109,7 @@ public class CreditController {
                 getMessage("key.credit", new String[]{minPay.toString(), credit.getDebt().toString()},
                         localeResolver.resolveLocale(request));
 
-        modelAndView.addObject("minPayment",creditService.minPayment(credit));
+        modelAndView.addObject("minPayment",minPay);
         modelAndView.addObject("client",clientService.getById(client_id));
         modelAndView.addObject("credit", credit);
         modelAndView.addObject("errorPayment",msg);
@@ -119,25 +119,22 @@ public class CreditController {
             return modelAndView;
         }
         paymentInput = paymentValidator.replacedOnComma(paymentInput);
+        BigDecimal amountPay = new BigDecimal(paymentInput);
 
-        if (!paymentValidator.checkCorrectAmount(credit.getAmount(),minPay,credit.getDebt())){
+        if (!paymentValidator.checkCorrectAmount(amountPay,minPay,credit.getDebt())){
             return modelAndView;
         }
         Payment payment = new Payment();
-
-        BigDecimal amount = new BigDecimal(paymentInput);
-        payment.setAmountPayment(amount);
+        payment.setAmountPayment(amountPay);
 
         BigDecimal rate = creditService.rateInPayment(credit);
         payment.setRatePayment(rate);
 
-        BigDecimal body = creditService.bodyInPayment(credit,rate,amount);
+        BigDecimal body = creditService.bodyInPayment(credit,rate,amountPay);
         payment.setBodyCredit(body);
-        paymentService.save(payment);
 
-        credit.getPayments().add(payment);
         credit.setDebt(creditService.bodyInPayment(credit,body,credit.getDebt()));
-
+        credit.getPayments().add(payment);
         creditService.save(credit);
 
         Client client = clientService.getById(client_id);
@@ -146,7 +143,7 @@ public class CreditController {
         modelAndView.setViewName("user/credit/pageCredit");
         modelAndView.addObject("client", client);
         modelAndView.addObject("credit", credit);
-        modelAndView.addObject("listCredits", client.getCreditSet());
+        modelAndView.addObject("listPayments",credit.getPayments());
 
 
         return modelAndView;
@@ -221,6 +218,7 @@ public class CreditController {
         Client client = clientService.getById(id);
         credit.setClient(client);
         creditService.save(credit);
+
         client = clientService.getById(id);
         modelAndView.setViewName("user/client/pageClient");
         modelAndView.addObject("client", client);

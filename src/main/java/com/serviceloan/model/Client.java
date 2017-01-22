@@ -31,7 +31,7 @@ public class Client extends BaseEntity {
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @OneToMany(mappedBy = "client",orphanRemoval=true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Credit> creditSet;
 
     @PrePersist

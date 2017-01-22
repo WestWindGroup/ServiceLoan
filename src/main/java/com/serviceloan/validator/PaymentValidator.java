@@ -15,8 +15,8 @@ import java.math.BigDecimal;
 public class PaymentValidator extends NumberValidator{
 
 
-    public boolean validate(BigDecimal amount,BigDecimal minPayment,BigDecimal maxPayment) {
-        if((amount.compareTo(minPayment) == -1)|| (amount.compareTo(maxPayment) == 1)) {
+    public boolean validate(BigDecimal amountPay,BigDecimal minPayment,BigDecimal maxPayment) {
+        if((amountPay.compareTo(minPayment) == -1)|| (amountPay.compareTo(maxPayment) == 1)) {
             return false;
         }else{
             return true;
