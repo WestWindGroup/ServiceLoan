@@ -132,7 +132,9 @@ public class ClientController {
             }
             clientService.save(client);
         }
-        modelAndView.addObject("client", clientService.getById(id));
+        Client cl = clientService.getById(id);
+        modelAndView.addObject("client", cl);
+        modelAndView.addObject("listCredits", cl.getCreditSet());
         modelAndView.setViewName("user/client/pageClient");
         return modelAndView;
     }

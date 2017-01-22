@@ -27,18 +27,12 @@
 
 </head>
 
-<body>
+<body class="backgroundAdmin">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<div class="container">
+<div class="formForInput">
 
     <form:form method="POST" modelAttribute="duration" class="form-signin">
         <h2 class="form-signin-heading">
@@ -59,18 +53,13 @@
             </h4>
         </button>
     </form:form>
-    <div class="block-button">
-        <div class="block1-listClient">
-            <button id="cancelButton"  onclick="location.href = '${contextPath}/admin/listDurations'">
-                <h4 class="text-center">
-                    <spring:message code="button.backEn"/>
-                </h4>
-            </button>
-        </div>
-    </div>
 
 </div>
-
+<button class="backButton"  onclick="location.href = '${contextPath}/admin/listDurations'">
+    <h4 class="text-center">
+        <spring:message code="button.backEn"/>
+    </h4>
+</button>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>

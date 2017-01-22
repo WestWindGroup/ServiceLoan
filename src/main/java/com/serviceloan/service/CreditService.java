@@ -28,9 +28,12 @@ public interface CreditService {
 
     BigDecimal minPayment(Credit credit);
 
+    BigDecimal maxPayment(Credit credit);
+
     List<Payment> listPayments(Credit credit);
 
     BigDecimal rateInPayment(Credit credit);
 
     BigDecimal bodyInPayment(Credit credit,BigDecimal rate, BigDecimal payment);
+
 }

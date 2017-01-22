@@ -25,20 +25,20 @@
 
 </head>
 
-<body>
+<body class="background">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
 
-<div class="container">
-    <div class="head-list">
-        <h1><spring:message code="addCredit.head"/></h1>
-    </div>
-    <div class="form">
+<div class="formForInput">
+        <div class="head-list">
+            <h1><spring:message code="addCredit.head"/></h1>
+        </div>
         <form:form method="POST" modelAttribute="credit" class="form-signin">
 
             <div class="form-group ${errorAmount != null ? 'has-error' : ''}">
+                <h4><spring:message code="addCredit.amount"/></h4>
                 <spring:message code="addCredit.amount" var="Amount"/>
                 <input name="amountInput" type="text" class="form-control" autofocus="true"
                        placeholder='${Amount}'/>
@@ -86,14 +86,12 @@
                 </h4>
             </button>
         </form:form>
-    </div>
-    <button class="backButton"  onclick="location.href = '${contextPath}/user/pageClient/${client.id}'">
-        <h4 class="text-center">
-            <spring:message code="buttons.back"/>
-        </h4>
-    </button>
 </div>
-
+<button class="backButton"  onclick="location.href = '${contextPath}/user/pageClient/${client.id}'">
+    <h4 class="text-center">
+        <spring:message code="buttons.back"/>
+    </h4>
+</button>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

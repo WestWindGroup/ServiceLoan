@@ -18,7 +18,7 @@
     <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet" >
 
 </head>
-<body>
+<body class="background">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>

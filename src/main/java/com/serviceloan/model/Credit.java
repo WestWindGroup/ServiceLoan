@@ -30,7 +30,7 @@ public class Credit extends BaseEntity{
     @Column(name = "shut_date")
     private Date shutDate;
 
-    @OneToMany(mappedBy = "credit" ,orphanRemoval=true,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "credit")
     private Set<Payment> payments;
 
     @ManyToOne

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -30,6 +31,9 @@ import java.util.List;
  */
 @Controller
 public class CreditController {
+
+    @Autowired
+    private GregorianCalendar calendar;
 
     @Autowired
     private ClientService clientService;
@@ -90,6 +94,7 @@ public class CreditController {
 
         Credit credit = creditService.getById(credit_id);
         model.addAttribute("minPayment",creditService.minPayment(credit));
+        model.addAttribute("maxPayment",creditService.maxPayment(credit));
         model.addAttribute("client",clientService.getById(client_id));
         model.addAttribute("credit",credit);
 
@@ -105,11 +110,13 @@ public class CreditController {
         Credit credit = creditService.getById(credit_id);
         String paymentInput = request.getParameter("paymentInput");
         BigDecimal minPay = creditService.minPayment(credit);
+        BigDecimal maxPay = creditService.maxPayment(credit);
         String msg =  messageSource.
-                getMessage("key.credit", new String[]{minPay.toString(), credit.getDebt().toString()},
+                getMessage("key.credit", new String[]{minPay.toString(), maxPay.toString()},
                         localeResolver.resolveLocale(request));
 
         modelAndView.addObject("minPayment",minPay);
+        modelAndView.addObject("maxPayment",maxPay);
         modelAndView.addObject("client",clientService.getById(client_id));
         modelAndView.addObject("credit", credit);
         modelAndView.addObject("errorPayment",msg);
@@ -121,7 +128,7 @@ public class CreditController {
         paymentInput = paymentValidator.replacedOnComma(paymentInput);
         BigDecimal amountPay = new BigDecimal(paymentInput);
 
-        if (!paymentValidator.checkCorrectAmount(amountPay,minPay,credit.getDebt())){
+        if (!paymentValidator.checkCorrectAmount(amountPay,minPay,maxPay)){
             return modelAndView;
         }
         Payment payment = new Payment();
@@ -132,11 +139,18 @@ public class CreditController {
 
         BigDecimal body = creditService.bodyInPayment(credit,rate,amountPay);
         payment.setBodyCredit(body);
-
+        payment.setCredit(credit);
         credit.setDebt(creditService.bodyInPayment(credit,body,credit.getDebt()));
         credit.getPayments().add(payment);
-        creditService.save(credit);
 
+        if (creditValidator.checkZero(credit.getDebt())){
+            CreditStatus creditStatus = statusService.getById(1);
+            credit.setCreditStatus(creditStatus);
+            credit.setShutDate(calendar.getTime());
+        }
+
+        creditService.save(credit);
+        credit = creditService.getById(credit_id);
         Client client = clientService.getById(client_id);
 
         modelAndView.clear();
@@ -144,7 +158,6 @@ public class CreditController {
         modelAndView.addObject("client", client);
         modelAndView.addObject("credit", credit);
         modelAndView.addObject("listPayments",credit.getPayments());
-
 
         return modelAndView;
     }

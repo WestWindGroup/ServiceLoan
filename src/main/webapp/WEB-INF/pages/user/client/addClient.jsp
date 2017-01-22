@@ -1,7 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -25,13 +24,13 @@
 
 </head>
 
-<body>
+<body class="background">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
 
-<div class="container">
+<div class="formForInput">
 
     <form:form method="POST" modelAttribute="client" class="form-signin">
         <h2 class="form-signin-heading">
@@ -71,13 +70,13 @@
             </h4>
         </button>
     </form:form>
-    <button id="backButton"  onclick="location.href = '${contextPath}/user/listClients'">
-        <h4 class="text-center">
-            <spring:message code="buttons.back"/>
-        </h4>
-    </button>
-</div>
 
+</div>
+<button class="backButton"  onclick="location.href = '${contextPath}/user/listClients'">
+    <h4 class="text-center">
+        <spring:message code="buttons.back"/>
+    </h4>
+</button>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

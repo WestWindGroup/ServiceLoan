@@ -92,4 +92,12 @@ public class CreditServiceImpl implements CreditService{
         }
     }
 
+    @Override
+    public BigDecimal maxPayment(Credit credit){
+        if (credit.getCreditType().getType().equals("Differentiated")){
+            return creditLogicBalanceDecrease.maxPayment(credit);
+        }else{
+            return creditLogicAnnuity.maxPayment(credit);
+        }
+    }
 }

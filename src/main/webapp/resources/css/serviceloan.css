@@ -1,6 +1,312 @@
 .background{
-    background: #c8c8c8;
+    background: #d6d6d6;
 }
+.backgroundAdmin{
+    background: #ffd9c2;
+}
+/*------------------------------------------forms*/
+.welcome{
+    position: absolute;
+    top: 25%;
+    left: 40%;
+}
+.formForInput{
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    width: 20%;
+    color: #21a051;
+}
+/*------------------------------------------heads*/
+.formInputHead{
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    color: #21a051;
+}
+.listClientHead{
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    color: #21a051;
+}
+.pageClientHead{
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    color: #21a051;
+}
+.listCreditsClientHead{
+    position: absolute;
+    top: 35%;
+    left: 15%;
+    color: #21a051;
+}
+.headPageCredit{
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    color: #21a051;
+}
+.headPageCreditCredit{
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    color: #21a051;
+}
+.listPaymentsCredit_head{
+    position: absolute;
+    top: 40%;
+    left: 15%;
+    color: #21a051;
+}
+/*------------------------------------------lists*/
+.div-listCredit{
+    height: 45%;
+    overflow: auto;
+}
+
+.paymentsHeat{
+    position: absolute;
+    top: 46%;
+    left: 15%;
+    width: 49.15%;
+    height: 6%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+.paymentsHeat table{
+    width: 100%;
+}
+
+.paymentsHeat th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+.payments{
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    width: 50%;
+    height: 40%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+    overflow: scroll;
+    background: #ffffff;
+}
+.payments table{
+    width: 100%;
+}
+
+.payments td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.listCreditClient{
+    position: absolute;
+    top: 29%;
+    left: 15%;
+    width: 70%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+    overflow: scroll;
+    background: #ffffff;
+}
+.listCreditClient table{
+    width: 100%;
+}
+.listCreditClient td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #ffffff;
+}
+
+.credit{
+    position: absolute;
+    top: 27%;
+    left: 15%;
+    width: 70%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+.credit th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.credit td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    overflow: hidden;
+    word-break: normal;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.creditsHead{
+    position: absolute;
+    top: 41%;
+    left: 15%;
+    width: 69.15%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+
+}
+.creditsHead table{
+    width: 100%;
+}
+.creditsHead th{
+    height: 10%;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    overflow: hidden;
+    word-break: normal;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.credits{
+    position: absolute;
+    top: 47%;
+    left: 15%;
+    width: 70%;
+    height: 45%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+    overflow: scroll;
+    background: #ffffff;
+}
+.credits table{
+    width: 100%;
+}
+.credits td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    overflow: hidden;
+    word-break: normal;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #fff;
+}
+.divListClientHead{
+    position: absolute;
+    top: 25%;
+    left: 15%;
+    width: 69.15%;
+    height: 6%;
+    color: #21a051;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+.divListClientHead table{
+    width: 100%;
+}
+.divListClientHead th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+.listClient{
+    position: absolute;
+    top: 25%;
+    left: 15%;
+    width: 69%;
+    height: 10%;
+    color: #21a051;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+}
+.listClient th{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #f0f0f0;
+}
+.listClient td{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: #ccc;
+    color: #333;
+    background-color: #fff;
+}
+/*------------------------------------------buttons*/
 .backButton{
     position: absolute;
     top: 85%;
@@ -15,14 +321,21 @@
     width: 8%;
     color: #21a051;
 }
+.makePaymentButton{
+    position: absolute;
+    top: 46%;
+    left: 70%;
+    width: 8%;
+    color: #21a051;
+}
 .listPaymentsButton{
     position: absolute;
-    top: 50%;
+    top: 65%;
     left: 87%;
     width: 8%;
     color: #21a051;
 }
-.PayButton{
+.payButton{
     position: absolute;
     top: 32%;
     left: 65%;
@@ -30,13 +343,6 @@
     color: #21a051;
 }
 
-.makePaymentButton{
-    position: absolute;
-    top: 60%;
-    left: 87%;
-    width: 8%;
-    color: #21a051;
-}
 .form{
     position: absolute;
     top: 25%;
@@ -69,6 +375,7 @@
 .block1-home {
     width: 45%;
     float: left;
+    color: #040404;
 }
 .block2-home {
     width: 35%;
@@ -91,12 +398,7 @@
     text-align: center;
     color: #21a051;
 }
-.head-list{
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    color: #21a051;
-}
+
 .listPayments_head{
     position: absolute;
     top: 30%;
@@ -147,21 +449,7 @@
     top: 10%;
     left: 15%;
 }
-.listCreditsClient{
-    position: absolute;
-    top: 30%;
-    left: 15%;
-    width: 60%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border-color: #ccc;
-}
-.listCreditsClient_head2{
-    position: absolute;
-    top: 30%;
-    left: 10%;
-    color: #21a051;
-}
+
 .listCreditsClient_head{
     position: absolute;
     top: 20%;
@@ -171,6 +459,12 @@
 .min_payment{
     position: absolute;
     top: 40%;
+    left: 30%;
+    color: #21a051;
+}
+.max_payment{
+    position: absolute;
+    top: 45%;
     left: 30%;
     color: #21a051;
 }
@@ -187,12 +481,7 @@
     color: #21a051;
 }
 
-.listPaymentsCredit_head{
-    position: absolute;
-    top: 40%;
-    left: 10%;
-    color: #21a051;
-}
+
 .div-clients{
     position: absolute;
     top: 20%;
@@ -275,44 +564,7 @@
     color: #333;
     background-color: #fff;
 }
-.div-payments{
-    position: absolute;
-    top: 46%;
-    left: 10%;
-    width: 75%;
-    height: 45%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border-color: #ccc;
-    overflow: auto;
-}
-.div-payments th{
-    text-align: center;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    padding: 10px 5px;
-    border-style: solid;
-    border-width: 1px;
-    overflow: hidden;
-    word-break: normal;
-    border-color: #ccc;
-    color: #333;
-    background-color: #f0f0f0;
-}
-.div-payments td{
-    text-align: center;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    padding: 10px 5px;
-    border-style: solid;
-    border-width: 1px;
-    overflow: hidden;
-    word-break: normal;
-    border-color: #ccc;
-    color: #333;
-    background-color: #fff;
-}
+
 .div-listPayments{
     position: absolute;
     top: 20%;

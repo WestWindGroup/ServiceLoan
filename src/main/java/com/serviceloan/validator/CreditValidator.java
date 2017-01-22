@@ -26,6 +26,14 @@ public class CreditValidator extends NumberValidator{
         }
     }
 
+    public boolean checkZero(BigDecimal num){
+        if(num.compareTo(new BigDecimal(0)) == 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     private boolean validate(BigDecimal amount) {
         if((amount.compareTo(new BigDecimal(env.getProperty("key.min.amount"))) == -1)||
                 (amount.compareTo(new BigDecimal(env.getProperty("key.max.amount"))) == 1)) {

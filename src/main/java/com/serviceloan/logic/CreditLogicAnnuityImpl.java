@@ -54,6 +54,12 @@ public class CreditLogicAnnuityImpl implements CreditLogic {
     }
 
     @Override
+    public BigDecimal maxPayment(Credit credit) {
+        BigDecimal amount = rateInPayment(credit).add( credit.getDebt() );
+        return amount;
+    }
+
+    @Override
     public BigDecimal rateInPayment(Credit credit) {
         BigDecimal rate = rate(credit.getPercent().getRate()).multiply(credit.getDebt());
         return rate.setScale(2, BigDecimal.ROUND_HALF_EVEN);

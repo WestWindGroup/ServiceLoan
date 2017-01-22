@@ -13,6 +13,8 @@ public interface CreditLogic {
 
     BigDecimal minPayment(Credit credit);
 
+    BigDecimal maxPayment(Credit credit);
+
     BigDecimal rateInPayment(Credit credit);
 
     BigDecimal bodyInPayment(BigDecimal rate, BigDecimal payment);

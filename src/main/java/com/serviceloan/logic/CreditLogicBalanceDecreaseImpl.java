@@ -45,7 +45,17 @@ public class CreditLogicBalanceDecreaseImpl implements CreditLogic {
         BigDecimal convertDuration = new BigDecimal(String.valueOf(credit.getDuration().getDuration()));
         BigDecimal percentCredit = rateInPayment(credit);
         BigDecimal bodyPayment = credit.getAmount().divide(convertDuration, BigDecimal.ROUND_HALF_EVEN);
-        return percentCredit.add(bodyPayment).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        if(bodyPayment.compareTo(credit.getDebt()) == -1){
+            return percentCredit.add(bodyPayment).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        }else{
+            return percentCredit.add(credit.getDebt()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        }
+    }
+
+    @Override
+    public BigDecimal maxPayment(Credit credit) {
+        BigDecimal amount = rateInPayment(credit).add( credit.getDebt() );
+        return amount;
     }
 
     @Override

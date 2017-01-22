@@ -25,21 +25,21 @@
 
 </head>
 
-<body>
+<body class="background">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
-<div class="container">
-    <div class="head-list">
+<div>
+    <div class="headPageCredit">
         <h2><spring:message code="pageCredit.head"/>:  ${client.lastName} ${client.firstName}</h2>
     </div>
 
-    <div class="listCreditsClient_head">
+    <div class="headPageCreditCredit">
         <h3><spring:message code="pageClient.credit"/></h3>
     </div>
-    <div class="div-credit">
-        <table>
+    <div>
+        <table class="credit">
             <tr>
                 <th width="6%">ID</th>
                 <th width="12%"><spring:message code="listCredit.table.credit.openDate"/></th>
@@ -75,7 +75,7 @@
     <div class="listPaymentsCredit_head">
         <h3><spring:message code="listPaymentsCredit_head"/></h3>
     </div>
-    <div class="div-payments">
+    <div class="paymentsHeat">
         <table>
             <tr>
                 <th width="8%">ID</th>
@@ -84,14 +84,18 @@
                 <th width="23%"><spring:message code="listPayments.table.rate"/></th>
                 <th width="23%"><spring:message code="listPayments.table.date"/></th>
             </tr>
+        </table>
+    </div>
+    <div class="payments">
+        <table>
             <c:if test="${!empty listPayments}">
                 <c:forEach items="${listPayments}" var="payment">
                     <tr>
-                        <td>${payment.id}</td>
-                        <td>${payment.amountPayment}</td>
-                        <td>${payment.bodyCredit}</td>
-                        <td>${payment.ratePayment}</td>
-                        <td>${payment.paymentDate}</td>
+                        <td width="8%">${payment.id}</td>
+                        <td width="23%">${payment.amountPayment}</td>
+                        <td width="23%">${payment.bodyCredit}</td>
+                        <td width="23%">${payment.ratePayment}</td>
+                        <td width="23%">${payment.paymentDate}</td>
                     </tr>
                 </c:forEach>
             </c:if>
@@ -104,11 +108,13 @@
             <spring:message code="buttons.listPayments"/>
         </h4>
     </button>
-    <button class="makePaymentButton" onclick="location.href = '${contextPath}/user/makePayment/${client.id}/${credit.id}'">
-        <h4 class="text-center">
-            <spring:message code="buttons.makePayment"/>
-        </h4>
-    </button>
+    <c:if test="${!credit.creditStatus.status.equals('repaid')}">
+        <button class="makePaymentButton" onclick="location.href = '${contextPath}/user/makePayment/${client.id}/${credit.id}'">
+            <h4 class="text-center">
+                <spring:message code="buttons.makePayment"/>
+            </h4>
+        </button>
+    </c:if>
     <button class="backButton" onclick="location.href = '${contextPath}/user/pageClient/${client.id}'">
         <h4 class="text-center">
             <spring:message code="buttons.back"/>

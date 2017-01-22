@@ -38,6 +38,9 @@
     <div class="min_payment">
         <h3><spring:message code="madePayment.min.payment"/> ${minPayment}</h3>
     </div>
+    <div class="max_payment">
+        <h3><spring:message code="madePayment.max.payment"/> ${maxPayment}</h3>
+    </div>
 
     <form:form method="POST" modelAttribute="payment" class="form-signin">
         <div class="form">
@@ -51,11 +54,14 @@
                 <span>${errorPayment}</span>
             </div>
         </div>
-        <button class="PayButton" type="submit">
-            <h4 class="text-center">
-                <spring:message code="buttons.makePaymentNow"/>
-            </h4>
-        </button>
+        <c:if test="${!credit.creditStatus.status.equals('repaid')}">
+            <button class="payButton" type="submit">
+                <h4 class="text-center">
+                    <spring:message code="buttons.makePaymentNow"/>
+                </h4>
+            </button>
+        </c:if>
+
     </form:form>
 
     <button class="backButton" onclick="location.href = '${contextPath}/user/pageCredit/${client.id}/${credit.id}'">

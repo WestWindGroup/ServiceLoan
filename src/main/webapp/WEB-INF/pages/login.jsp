@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -18,61 +18,46 @@
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet">
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-    <style>
-        .main {
-            position: absolute;
-            top: 20%;
-            left: 40%;
-            width: 20%;
-            height: 20%;
-        }
-
-        .lang {
-            position: absolute;
-            top: 5%;
-            left: 70%;
-        }
-    </style>
-
 </head>
 
-<body>
+<body class="background">
 
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
-<div>
-    <div class="main">
+<div class="formForInput">
 
-        <form method="POST" action="${contextPath}/login" class="form-signin">
-            <h2 class="form-signin-heading">
-                <spring:message code="login.head"/>
-            </h2>
+    <form method="POST" action="${contextPath}/login" class="form-signin">
+        <h2 class="form-signin-heading">
+            <spring:message code="login.head"/>
+        </h2>
 
-            <div class="form-group ${error != null ? 'has-error' : ''}">
-                <spring:message code="login.placeholder.login" var="Username"/>
-                <input name="username" type="text" class="form-control" placeholder="${Username}"
-                       autofocus="true"/>
-                <spring:message code="login.placeholder.password" var="Password"/>
-                <input name="password" type="password" class="form-control" placeholder="${Password}"/>
-                <span>${error}</span>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <div class="form-group ${error != null ? 'has-error' : ''}">
+            <spring:message code="login.placeholder.login" var="Username"/>
+            <input name="username" type="text" class="form-control" placeholder="${Username}"
+                   autofocus="true"/>
+            <spring:message code="login.placeholder.password" var="Password"/>
+            <input name="password" type="password" class="form-control" placeholder="${Password}"/>
+            <span>${error}</span>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">
-                    <spring:message code="login.buttons.login"/>
-                </button>
-            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                <spring:message code="login.buttons.login"/>
+            </button>
+        </div>
 
-        </form>
+    </form>
 
-    </div>
+</div>
+</body>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

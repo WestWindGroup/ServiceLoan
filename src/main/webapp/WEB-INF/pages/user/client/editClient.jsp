@@ -25,60 +25,56 @@
 
 </head>
 
-<body>
+<body class="background">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
-
-<div class="container">
-    <div class="head-list">
-        <h1><spring:message code="editClient.head"/></h1>
-    </div>
-    <div class="form">
-        <form:form method="POST" modelAttribute="client" class="form-signin">
-            <spring:bind path="firstName">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <spring:message code="listClient.table.client.name" var="firstName"/>
-                    <form:input type="text" path="firstName" class="form-control" placeholder='${firstName}'
-                                autofocus="true"/>
-
-                    <form:errors path="firstName"/>
-                </div>
-            </spring:bind>
-            <spring:bind path="lastName">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <spring:message code="listClient.table.client.lastname" var="lastName"/>
-                    <form:input type="text" path="lastName" class="form-control" placeholder='${lastName}'
-                                autofocus="true"/>
-
-                    <form:errors path="lastName"/>
-                </div>
-            </spring:bind>
-
-            <spring:bind path="birthDate">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <spring:message code="listClient.table.client.birthDate" var="birthDate"/>
-                    <form:input type="date" min="1899-01-01" max="2099-01-01" path="birthDate" class="form-control"
-                                placeholder='${birthDate}' autofocus="true"/>
-
-                    <form:errors path="birthDate"/>
-                </div>
-            </spring:bind>
-            <button type="submit">
-                <h4 class="text-center">
-                    <spring:message code="button.accept"/>
-                </h4>
-            </button>
-        </form:form>
-    </div>
-    <button class="backButton"  onclick="location.href = '${contextPath}/user/pageClient/${client.id}'">
-        <h4 class="text-center">
-            <spring:message code="buttons.back"/>
-        </h4>
-    </button>
+<div class="formInputHead">
+    <h1><spring:message code="editClient.head"/></h1>
 </div>
+<div class="formForInput">
+    <form:form method="POST" modelAttribute="client" class="form-signin">
+        <spring:bind path="firstName">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <spring:message code="listClient.table.client.name" var="firstName"/>
+                <form:input type="text" path="firstName" class="form-control" placeholder='${firstName}'
+                            autofocus="true"/>
 
+                <form:errors path="firstName"/>
+            </div>
+        </spring:bind>
+        <spring:bind path="lastName">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <spring:message code="listClient.table.client.lastname" var="lastName"/>
+                <form:input type="text" path="lastName" class="form-control" placeholder='${lastName}'
+                            autofocus="true"/>
+
+                <form:errors path="lastName"/>
+            </div>
+        </spring:bind>
+
+        <spring:bind path="birthDate">
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <spring:message code="listClient.table.client.birthDate" var="birthDate"/>
+                <form:input type="date" min="1899-01-01" max="2099-01-01" path="birthDate" class="form-control"
+                            placeholder='${birthDate}' autofocus="true"/>
+
+                <form:errors path="birthDate"/>
+            </div>
+        </spring:bind>
+        <button type="submit">
+            <h4 class="text-center">
+                <spring:message code="button.accept"/>
+            </h4>
+        </button>
+    </form:form>
+</div>
+<button class="backButton"  onclick="location.href = '${contextPath}/user/pageClient/${client.id}'">
+    <h4 class="text-center">
+        <spring:message code="buttons.back"/>
+    </h4>
+</button>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

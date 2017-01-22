@@ -16,7 +16,7 @@
     <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet" >
 
 </head>
-<body>
+<body class="backgroundAdmin">
 <h1 class="heading">Rates</h1>
 
 <c:if test="${!empty listRates}">
@@ -37,19 +37,21 @@
 </c:if>
 <div class="block-button">
     <div class="block2-listClient">
-        <button onclick="location.href = '${contextPath}/admin'">
-            <h4 class="text-center">
-                <spring:message code="button.backEn"/>
-            </h4>
-        </button>
+
     </div>
     <div class="block1-listClient">
-        <button onclick="location.href = '${contextPath}/admin/addRate'">
-            <h4 class="text-center">
-                <spring:message code="button.create"/>
-            </h4>
-        </button>
+
     </div>
 </div>
+<button class="funcButton" onclick="location.href = '${contextPath}/admin/addRate'">
+    <h4 class="text-center">
+        <spring:message code="button.create"/>
+    </h4>
+</button>
+<button class="backButton" onclick="location.href = '${contextPath}/admin'">
+    <h4 class="text-center">
+        <spring:message code="button.backEn"/>
+    </h4>
+</button>
 </body>
 </html>

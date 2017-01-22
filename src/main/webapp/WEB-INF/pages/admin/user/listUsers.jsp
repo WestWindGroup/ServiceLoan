@@ -17,18 +17,20 @@
     <link href="${contextPath}/resources/css/serviceloan.css" rel="stylesheet" >
 
 </head>
-<body>
+<body class="backgroundAdmin">
 <h1 class="heading">Users</h1>
 
 <c:if test="${!empty listUsers}">
     <table class="tg">
         <tr>
             <th width="80">ID</th>
+            <th width="120"></th>
             <th width="120">LastName</th>
         </tr>
         <c:forEach items="${listUsers}" var="user">
             <tr>
                 <td>${user.id}</td>
+                <td>${user.username}</td>
                 <td>${user.lastName}</td>
                 <td width="80"><a href="/admin/editUser/${user.id}">Edit</a></td>
                 <td width="80"><a href="/admin/deleteUser/${user.id}">Delete</a></td>
@@ -36,22 +38,15 @@
         </c:forEach>
     </table>
 </c:if>
-<div class="block-button">
-    <div class="block2-listClient">
-        <button onclick="location.href = '${contextPath}/admin'">
-            <h4 class="text-center">
-                <spring:message code="button.backEn"/>
-            </h4>
-        </button>
-    </div>
-    <div class="block1-listClient">
-        <button onclick="location.href = '${contextPath}/admin/addUser'">
-            <h4 class="text-center">
-                <spring:message code="button.create"/>
-            </h4>
-        </button>
-    </div>
-
-</div>
+<button class="funcButton" onclick="location.href = '${contextPath}/admin/addUser'">
+    <h4 class="text-center">
+        <spring:message code="button.create"/>
+    </h4>
+</button>
+<button class="backButton" onclick="location.href = '${contextPath}/admin'">
+    <h4 class="text-center">
+        <spring:message code="button.backEn"/>
+    </h4>
+</button>
 </body>
 </html>

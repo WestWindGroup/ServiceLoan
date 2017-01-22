@@ -1,8 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
-<%@ page session="false" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -18,65 +16,61 @@
 
 
 </head>
-<body>
+<body class="background">
 <div class="lang">
     <a href="<%=request.getContextPath()%>?languageVar=ua"><spring:message code="general.UA"/></a>
     <a href="<%=request.getContextPath()%>?languageVar=ru"><spring:message code="general.RU"/></a>
 </div>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
 
-<div class="container">
-    <div class="head-list">
-        <h1><spring:message code="listClient.head"/></h1>
-    </div>
-
-    <div class="div-clients">
-        <table>
-            <tr>
-                <th width="10%">ID</th>
-                <th width="24%"><spring:message code="listClient.table.client.name"/></th>
-                <th width="22%"><spring:message code="listClient.table.client.lastname"/></th>
-                <th width="22%"><spring:message code="listClient.table.client.birthDate"/></th>
-                <th width="22%"><spring:message code="listClient.table.client.registrationDate"/></th>
-            </tr>
-            <c:if test="${!empty listClients}">
-                <c:forEach items="${listClients}" var="client">
-                    <tr>
-                        <td>${client.id}</td>
-                        <td>${client.firstName}</td>
-                        <td>${client.lastName}</td>
-                        <td>${client.birthDate}</td>
-                        <td>${client.registrationDate}</td>
-                        <td width="80">
-                            <h5 class="text-center">
-                                <a href="/user/pageClient/${client.id}">
-                                    <spring:message code="listClient.button.showClient"/>
-                                </a>
-                            </h5>
-                        </td>
-
-                    </tr>
-                </c:forEach>
-            </c:if>
-        </table>
-    </div>
-    <button class="funcButton" onclick="location.href = '${contextPath}/user/addClient'">
-        <h4 class="text-center">
-            <spring:message code="listClient.button.addClient"/>
-        </h4>
-    </button>
-    <button class="backButton" onclick="location.href = '${contextPath}/home'">
-        <h4 class="text-center">
-            <spring:message code="buttons.back"/>
-        </h4>
-    </button>
-
+<div class="listClientHead">
+    <h1><spring:message code="listClient.head"/></h1>
 </div>
+
+<div class="divListClientHead">
+    <table>
+        <tr>
+            <th width="10%">ID</th>
+            <th width="18%"><spring:message code="listClient.table.client.name"/></th>
+            <th width="22%"><spring:message code="listClient.table.client.lastname"/></th>
+            <th width="22%"><spring:message code="listClient.table.client.birthDate"/></th>
+            <th width="22%"><spring:message code="listClient.table.client.registrationDate"/></th>
+            <td width="6%"/>
+        </tr>
+    </table>
+</div>
+<div class="listCreditClient">
+    <table>
+        <c:if test="${!empty listClients}">
+            <c:forEach items="${listClients}" var="client">
+                <tr>
+                    <td width="10%">${client.id}</td>
+                    <td width="18%">${client.firstName}</td>
+                    <td width="22%">${client.lastName}</td>
+                    <td width="22%">${client.birthDate}</td>
+                    <td width="22%">${client.registrationDate}</td>
+                    <td width="6%">
+                        <h5 class="text-center">
+                            <a href="/user/pageClient/${client.id}">
+                                <spring:message code="listClient.button.showClient"/>
+                            </a>
+                        </h5>
+                    </td>
+
+                </tr>
+            </c:forEach>
+        </c:if>
+    </table>
+</div>
+<button class="funcButton" onclick="location.href = '${contextPath}/user/addClient'">
+    <h4 class="text-center">
+        <spring:message code="listClient.button.addClient"/>
+    </h4>
+</button>
+<button class="backButton" onclick="location.href = '${contextPath}/home'">
+    <h4 class="text-center">
+        <spring:message code="buttons.back"/>
+    </h4>
+</button>
 
 
 </body>
