@@ -1,5 +1,5 @@
 -- users
-INSERT INTO users VALUES (DEFAULT,  'admin', 'Admin', 'Admin', '$2a$06$/CKzkal2v7y/auceMWbP/ue7ehknc2oU/aKyzgdFJ8ND91HmruU7C');
+INSERT INTO users VALUES (DEFAULT ,  'admin', 'Admin', 'Admin', '$2a$06$/CKzkal2v7y/auceMWbP/ue7ehknc2oU/aKyzgdFJ8ND91HmruU7C');
 INSERT INTO users VALUES (DEFAULT,  'user', 'User', 'User', '$2a$06$7WXNEWw1o9CL74yGv1VyJ.RPFzqMidfoT56/2qYU0Vga767pObxpy');
 
 -- roles
@@ -25,7 +25,7 @@ INSERT INTO duration VALUES (DEFAULT, 24);
 INSERT INTO duration VALUES (DEFAULT, 36);
 
 -- types
-INSERT INTO duration VALUES (DEFAULT, 'Differentiated');
-INSERT INTO duration VALUES (DEFAULT, 'Annuity');
+INSERT INTO types VALUES (DEFAULT, 'Differentiated');
+INSERT INTO types VALUES (DEFAULT, 'Annuity');
 
 

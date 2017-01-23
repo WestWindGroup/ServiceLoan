@@ -28,18 +28,23 @@ public class JpaClientDAOImpl implements ClientDAO{
     @SuppressWarnings("unchecked")
     @Override
     public Client getById(Long id) {
-        Query query = this.entityManager.createQuery("SELECT client FROM  Client client " +
-                "LEFT JOIN FETCH  client.creditSet WHERE client.id =:id");
-        query.setParameter("id", id);
+        try{
+            Query query = this.entityManager.createQuery("SELECT client FROM  Client client " +
+                    "LEFT JOIN FETCH  client.creditSet WHERE client.id =:id");
+            query.setParameter("id", id);
 
-        Client client = (Client) query.getSingleResult();
-        logger.info("Client successfully loaded. Client details: " + client);
+            Client client = (Client) query.getSingleResult();
+            logger.info("Client successfully loaded. Client details: " + client);
 
-        return client;
+            return client;
+        }catch (NoResultException e){
+            return null;
+        }
+
     }
 
     @Override
-    public Collection getAll() {
+    public Collection<Client> getAll() {
         Collection<Client> result;
         Query query = this.entityManager.createQuery("SELECT client FROM Client client");
         result = query.getResultList();
@@ -79,7 +84,7 @@ public class JpaClientDAOImpl implements ClientDAO{
     public Client findByName(String name) {
         try {
             Query query = this.entityManager.
-                    createQuery("SELECT client FROM Client client WHERE client.name=:name", Client.class);
+                    createQuery("SELECT client FROM Client client WHERE client.firstName=:name", Client.class);
             query.setParameter("name", name);
             Client client = (Client) query.getSingleResult();
             return client;

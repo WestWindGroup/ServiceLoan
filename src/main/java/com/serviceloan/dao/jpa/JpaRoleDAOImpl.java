@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Collection;
@@ -24,16 +25,19 @@ public class JpaRoleDAOImpl implements RoleDAO {
 
     private final static Logger logger = Logger.getLogger(JpaRoleDAOImpl.class);
 
-    @SuppressWarnings("unchecked")
     @Override
     public Role getById(Long id) {
-        Query query = this.entityManager.createQuery("SELECT DISTINCT  role FROM  Role role LEFT JOIN FETCH  role.users WHERE role.id =:id");
-        query.setParameter("id", id);
+        try {
+            Query query = this.entityManager.createQuery("SELECT DISTINCT  role FROM  Role role LEFT JOIN FETCH  role.users WHERE role.id =:id");
+            query.setParameter("id", id);
 
-        Role role = (Role) query.getSingleResult();
-        logger.info("Role successfully loaded. Role details: " + role);
+            Role role = (Role) query.getSingleResult();
+            logger.info("Role successfully loaded. Role details: " + role);
+            return role;
+        }catch(NoResultException e){
+            return null;
+        }
 
-        return role;
     }
 
     @Override
@@ -70,8 +74,13 @@ public class JpaRoleDAOImpl implements RoleDAO {
 
     @Override
     public void remove(Long id){
-        this.entityManager.remove(this.entityManager.getReference(Role.class,id));
-        logger.info("Role successfully removed. Role details: " + id);
+        try{
+            this.entityManager.remove(this.entityManager.getReference(Role.class,id));
+            logger.info("Role successfully removed. Role details: " + id);
+        }catch (NullPointerException e){
+
+        }
+
     }
 
 }

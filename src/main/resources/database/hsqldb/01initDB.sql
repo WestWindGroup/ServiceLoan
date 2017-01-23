@@ -1,0 +1,168 @@
+DROP TABLE IF EXISTS USER_ROLES;
+DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS ROLES;
+
+DROP TABLE IF EXISTS CREDIT_STATUS;
+DROP TABLE IF EXISTS STATUSES;
+
+DROP TABLE IF EXISTS CREDIT_RATE;
+DROP TABLE IF EXISTS RATE_INTEREST;
+
+DROP TABLE IF EXISTS CREDIT_DURATION;
+DROP TABLE IF EXISTS DURATION;
+
+DROP TABLE IF EXISTS CREDIT_TYPE;
+DROP TABLE IF EXISTS TYPES;
+
+DROP TABLE IF EXISTS CREDIT_PAYMENT;
+DROP TABLE IF EXISTS PAYMENT;
+
+DROP TABLE IF EXISTS CLIENT_CREDITS;
+DROP TABLE IF EXISTS CLIENTS;
+DROP TABLE IF EXISTS CREDITS;
+
+-- users
+CREATE TABLE USERS (
+  id         INTEGER IDENTITY PRIMARY KEY,
+  username   VARCHAR(50)  NOT NULL,
+  first_name VARCHAR(50)  NOT NULL,
+  last_name  VARCHAR(50)  NOT NULL,
+  password   VARCHAR(255) NOT NULL
+);
+
+-- roles
+CREATE TABLE ROLES (
+  id   INTEGER IDENTITY PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+);
+
+-- user_roles
+CREATE TABLE USER_ROLES (
+  user_id INTEGER NOT NULL,
+  role_id INTEGER NOT NULL,
+
+  FOREIGN KEY (user_id) REFERENCES USERS (id),
+  FOREIGN KEY (role_id) REFERENCES ROLES (id),
+
+  UNIQUE (user_id, role_id)
+);
+
+-- clients
+CREATE TABLE CLIENTS (
+  id                INTEGER IDENTITY PRIMARY KEY,
+  first_name        VARCHAR(50) NOT NULL,
+  last_name         VARCHAR(50) NOT NULL,
+  registration_date TIMESTAMP,
+  birth_date        TIMESTAMP
+);
+
+-- credits
+CREATE TABLE CREDITS (
+  id        INTEGER IDENTITY PRIMARY KEY,
+  amount    NUMERIC(19, 2) NOT NULL,
+  debt      NUMERIC(19, 2) NOT NULL,
+  open_date TIMESTAMP,
+  shut_date TIMESTAMP
+);
+
+-- client_credits
+CREATE TABLE CLIENT_CREDITS (
+  client_id INTEGER NOT NULL,
+  credit_id INTEGER NOT NULL,
+
+  FOREIGN KEY (client_id) REFERENCES CLIENTS (id),
+  FOREIGN KEY (credit_id) REFERENCES CREDITS (id),
+
+  UNIQUE (client_id, credit_id)
+);
+
+-- statuses
+CREATE TABLE STATUSES (
+  id     INTEGER IDENTITY PRIMARY KEY,
+  status VARCHAR(50) NOT NULL
+);
+
+-- credit_status
+CREATE TABLE CREDIT_STATUS (
+  credit_id INTEGER NOT NULL,
+  status_id INTEGER NOT NULL,
+
+  FOREIGN KEY (credit_id) REFERENCES CREDITS (id),
+  FOREIGN KEY (status_id) REFERENCES STATUSES (id),
+
+  UNIQUE (credit_id, status_id)
+);
+
+-- rate_interest
+CREATE TABLE RATE_INTEREST (
+  id   INTEGER IDENTITY PRIMARY KEY,
+  rate DOUBLE PRECISION NOT NULL
+);
+
+-- credit_rate
+CREATE TABLE CREDIT_RATE (
+  credit_id INTEGER NOT NULL,
+  rate_id   INTEGER NOT NULL,
+
+  FOREIGN KEY (credit_id) REFERENCES CREDITS (id),
+  FOREIGN KEY (rate_id) REFERENCES RATE_INTEREST (id),
+
+  UNIQUE (credit_id, rate_id)
+);
+
+-- duration
+CREATE TABLE DURATION (
+  id       INTEGER IDENTITY PRIMARY KEY,
+  duration INT NOT NULL
+);
+
+-- credit_duration
+CREATE TABLE CREDIT_DURATION (
+  credit_id   INTEGER NOT NULL,
+  duration_id INTEGER NOT NULL,
+
+  FOREIGN KEY (credit_id) REFERENCES CREDITS (id),
+  FOREIGN KEY (duration_id) REFERENCES DURATION (id),
+
+  UNIQUE (credit_id, duration_id)
+);
+
+-- types
+CREATE TABLE TYPES (
+  id   INTEGER IDENTITY PRIMARY KEY,
+  type VARCHAR(50) NOT NULL
+);
+
+-- credit_type
+CREATE TABLE CREDIT_TYPE (
+  credit_id INTEGER NOT NULL,
+  type_id   INTEGER NOT NULL,
+
+  FOREIGN KEY (credit_id) REFERENCES CREDITS (id),
+  FOREIGN KEY (type_id) REFERENCES TYPES (id),
+
+  UNIQUE (credit_id, type_id)
+);
+
+-- payment
+CREATE TABLE PAYMENT (
+  id             INTEGER IDENTITY PRIMARY KEY,
+  amount_payment NUMERIC(19, 2) NOT NULL,
+  body_credit    NUMERIC(19, 2) NOT NULL,
+  rate_payment   NUMERIC(19, 2) NOT NULL,
+  date_payment   TIMESTAMP
+);
+
+-- credit_payment
+CREATE TABLE CREDIT_PAYMENT (
+  credit_id  INTEGER NOT NULL,
+  payment_id INTEGER NOT NULL,
+
+  FOREIGN KEY (credit_id) REFERENCES CREDITS (id),
+  FOREIGN KEY (payment_id) REFERENCES PAYMENT (id),
+
+  UNIQUE (credit_id, payment_id)
+);
+
+
+

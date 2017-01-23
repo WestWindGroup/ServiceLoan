@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Collection;
@@ -27,16 +28,21 @@ public class JpaCreditDAOImpl implements CreditDAO {
     @SuppressWarnings("unchecked")
     @Override
     public Credit getById(Long id) {
-        Query query = this.entityManager.createQuery("SELECT credit FROM  Credit credit " +
-                "LEFT JOIN FETCH  credit.percent LEFT JOIN FETCH  credit.creditType " +
-                "LEFT JOIN FETCH  credit.creditStatus LEFT JOIN FETCH  credit.duration " +
-                "LEFT JOIN FETCH  credit.client LEFT JOIN FETCH  credit.payments WHERE credit.id =:id");
-        query.setParameter("id", id);
+        try{
+            Query query = this.entityManager.createQuery("SELECT credit FROM  Credit credit " +
+                    "LEFT JOIN FETCH  credit.percent LEFT JOIN FETCH  credit.creditType " +
+                    "LEFT JOIN FETCH  credit.creditStatus LEFT JOIN FETCH  credit.duration " +
+                    "LEFT JOIN FETCH  credit.client LEFT JOIN FETCH  credit.payments WHERE credit.id =:id");
+            query.setParameter("id", id);
 
-        Credit credit = (Credit) query.getSingleResult();
-        logger.info("Credit successfully loaded. Credit details: " + credit);
+            Credit credit = (Credit) query.getSingleResult();
+            logger.info("Credit successfully loaded. Credit details: " + credit);
 
-        return credit;
+            return credit;
+        }catch (NoResultException e){
+            return null;
+        }
+
     }
 
     @Override

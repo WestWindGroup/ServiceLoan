@@ -45,9 +45,6 @@ public class CreditController {
     private PaymentValidator paymentValidator;
 
     @Autowired
-    private PaymentService paymentService;
-
-    @Autowired
     private CreditService creditService;
 
     @Autowired

@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -29,14 +30,19 @@ public class JpaCreditTypeDAOImpl implements CreditTypeDAO {
     @SuppressWarnings("unchecked")
     @Override
     public CreditType getById(Long id) {
-        Query query = this.entityManager.createQuery("SELECT creditType FROM  CreditType creditType " +
-                "LEFT JOIN FETCH  creditType.credits WHERE creditType.id =:id");
-        query.setParameter("id", id);
+        try{
+            Query query = this.entityManager.createQuery("SELECT creditType FROM  CreditType creditType " +
+                    "LEFT JOIN FETCH  creditType.credits WHERE creditType.id =:id");
+            query.setParameter("id", id);
 
-        CreditType creditType = (CreditType) query.getSingleResult();
-        logger.info("CreditType successfully loaded. CreditType details: " + creditType);
+            CreditType creditType = (CreditType) query.getSingleResult();
+            logger.info("CreditType successfully loaded. CreditType details: " + creditType);
 
-        return creditType;
+            return creditType;
+        }catch (NoResultException e){
+            return null;
+        }
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Collection;
@@ -29,14 +30,19 @@ public class JpaCreditStatusDAOImpl implements CreditStatusDAO {
     @SuppressWarnings("unchecked")
     @Override
     public CreditStatus getById(Long id) {
-        Query query = this.entityManager.createQuery("SELECT creditStatus FROM  CreditStatus creditStatus " +
-                "LEFT JOIN FETCH  creditStatus.credits WHERE creditStatus.id =:id");
-        query.setParameter("id", id);
+        try{
+            Query query = this.entityManager.createQuery("SELECT creditStatus FROM  CreditStatus creditStatus " +
+                    "LEFT JOIN FETCH  creditStatus.credits WHERE creditStatus.id =:id");
+            query.setParameter("id", id);
 
-        CreditStatus creditStatus = (CreditStatus) query.getSingleResult();
-        logger.info("CreditStatus successfully loaded. CreditStatus details: " + creditStatus);
+            CreditStatus creditStatus = (CreditStatus) query.getSingleResult();
+            logger.info("CreditStatus successfully loaded. CreditStatus details: " + creditStatus);
 
-        return creditStatus;
+            return creditStatus;
+        }catch (NoResultException e){
+            return null;
+        }
+
     }
 
     @Override
