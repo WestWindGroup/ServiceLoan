@@ -35,7 +35,7 @@
 <div class="formForInput">
     <form:form method="POST" modelAttribute="duration" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="editDuration.head"/>
+            <spring:message code="head.editDuration.head"/>
         </h2>
         <div class="form-group ${errorDuration != null ? 'has-error' : ''}">
             <spring:message code="addDuration.placeholder.duration" var="Nameduration"/>

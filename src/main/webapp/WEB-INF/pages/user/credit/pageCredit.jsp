@@ -32,7 +32,7 @@
 </div>
 <div>
     <div class="headPageCredit">
-        <h2><spring:message code="pageCredit.head"/>:  ${client.lastName} ${client.firstName}</h2>
+        <h2><spring:message code="head.pageCredit.head"/>:  ${client.lastName} ${client.firstName}</h2>
     </div>
 
     <div class="headPageCreditCredit">
@@ -72,8 +72,8 @@
         </table>
     </div>
 
-    <div class="listPaymentsCredit_head">
-        <h3><spring:message code="listPaymentsCredit_head"/></h3>
+    <div class="paymentsCredit_head">
+        <h3><spring:message code="head.listPaymentsCredit_head"/></h3>
     </div>
     <div class="paymentsHeat">
         <table>

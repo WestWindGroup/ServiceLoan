@@ -37,7 +37,7 @@
 
     <form:form method="POST" modelAttribute="user" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="editUser.head"/>
+            <spring:message code="head.editUser.head"/>
         </h2>
         <spring:bind path="username">
             <div class="form-group ${status.error ? 'has-error' : ''}">

@@ -86,7 +86,6 @@ public class UserController {
                 model.addAttribute("errorConfirmPassword",
                         messageSource.getMessage("key.password.incorrect", null, localeResolver.resolveLocale(request)));
                 bindingResult.addError(null);
-//                return "user/editProfile";
             }
 
             if (bindingResult.hasErrors()) {

@@ -35,7 +35,7 @@
 <div class="formForInput">
     <form:form method="POST" modelAttribute="rate" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="editRate.head"/>
+            <spring:message code="head.editRate.head"/>
         </h2>
         <div class="form-group ${errorRate != null ? 'has-error' : ''}">
             <spring:message code="addRole.placeholder.rate" var="NameRate"/>

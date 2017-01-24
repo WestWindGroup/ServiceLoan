@@ -35,7 +35,7 @@
 <div class="formForInput">
     <form:form method="POST" modelAttribute="status" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="editStatus.head"/>
+            <spring:message code="head.editStatus.head"/>
         </h2>
         <spring:bind path="status">
             <div class="form-group ${status.error ? 'has-error' : ''}">

@@ -3,7 +3,6 @@ package com.serviceloan.validator;
 import com.serviceloan.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 /**
  * Validator for {@link User} class, when you register,

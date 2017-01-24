@@ -36,7 +36,7 @@
 
     <form:form method="POST" modelAttribute="duration" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="deleteDuration.head"/>
+            <spring:message code="head.deleteDuration.head"/>
         </h2>
         <spring:bind path="duration">
             <div class="form-group ${errorDelete != null ? 'has-error' : ''}">

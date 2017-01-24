@@ -37,7 +37,7 @@ public class JpaPaymentDAOImpl implements PaymentDAO {
             logger.info("Payment successfully loaded. Payment details: " + payment);
 
             return payment;
-        }catch (Exception e){
+        }catch (NoResultException e){
             return null;
         }
     }

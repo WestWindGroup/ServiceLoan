@@ -36,7 +36,7 @@
 
     <form:form method="POST" modelAttribute="role" class="form-signin">
         <h2 class="form-signin-heading">
-            <spring:message code="deleteRole.head"/>
+            <spring:message code="head.deleteRole.head"/>
         </h2>
         <spring:bind path="name">
             <div class="form-group ${errorDelete != null ? 'has-error' : ''}">

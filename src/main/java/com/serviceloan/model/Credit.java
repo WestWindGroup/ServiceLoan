@@ -1,5 +1,7 @@
 package com.serviceloan.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "credits")
+@Component
 public class Credit extends BaseEntity{
 
     @Column(name = "amount")
@@ -30,7 +33,7 @@ public class Credit extends BaseEntity{
     @Column(name = "shut_date")
     private Date shutDate;
 
-    @OneToMany(mappedBy = "credit")
+    @OneToMany(mappedBy = "credit", cascade = CascadeType.ALL)
     private Set<Payment> payments;
 
     @ManyToOne

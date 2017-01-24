@@ -34,7 +34,7 @@
             <th width="22%"><spring:message code="listClient.table.client.lastname"/></th>
             <th width="22%"><spring:message code="listClient.table.client.birthDate"/></th>
             <th width="22%"><spring:message code="listClient.table.client.registrationDate"/></th>
-            <td width="6%"/>
+            <th width="6%"/>
         </tr>
     </table>
 </div>

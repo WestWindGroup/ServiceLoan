@@ -83,7 +83,7 @@ public abstract class UserValidator  extends AbstractValidator {
 
         if (!user.getConfirmPassword().equals(user.getPassword())) {
             user.setConfirmPassword("");
-            errors.rejectValue("confirmPassword", "key.different.userForm.password");
+            errors.rejectValue("addUser.confirmPassword", "key.different.userForm.password");
         }
 
     }
